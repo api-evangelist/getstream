@@ -1,0 +1,161 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Stream
+providerId: getstream
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Chat
+- Activity Feeds
+- Video
+- Moderation
+- MAU
+- Plans
+description: >-
+  Stream prices each product on its own dimension. Chat and Activity Feeds are
+  metered primarily on Monthly Active Users (MAU) - the number of unique users
+  that connect to Stream in a calendar month. Video and Audio are metered on
+  participant minutes. Every account gets a free allowance (and qualifying teams
+  can get a larger free Maker account); production usage moves to the Startup /
+  Standard tier, and high-volume or compliance-heavy customers negotiate an
+  Enterprise contract. Exact list prices change often and are not reconciled
+  here - verify on the per-product pricing pages.
+notes: >-
+  The Maker Account gives qualifying startups extended free access (reported at
+  ~2,000 Chat MAU, 125,000 Feeds API calls, 333,000 Video participant minutes,
+  and moderation credits per month). Standard/Startup Chat historically starts
+  around $499/month for ~10,000 MAU. Confirm all figures during reconciliation.
+sources:
+- https://getstream.io/chat/pricing/
+- https://getstream.io/activity-feeds/pricing/
+- https://getstream.io/video/pricing/
+- https://getstream.io/blog/maker-account/
+plans:
+- id: getstream-free
+  name: Free / Build
+  type: free
+  description: >-
+    Free tier for development and evaluation across products. Includes a bounded
+    monthly allowance of Chat MAU, Feeds API calls, and Video participant minutes
+    (every account receives free Audio/Video usage each month). No credit card
+    required to start.
+  entries:
+  - label: Chat Monthly Active Users
+    name: free_chat_mau
+    type: usage
+    metric: users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0 up to the free MAU allowance
+    userMultiplied: true
+  - label: Video Participant Minutes
+    name: free_video_minutes
+    type: usage
+    metric: minutes
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0 up to the free monthly Audio/Video credit
+    userMultiplied: false
+  elements:
+  - name: Chat Messaging
+  - name: Activity Feeds
+  - name: Video and Audio
+  - name: AI Moderation
+- id: getstream-maker
+  name: Maker Account
+  type: free
+  description: >-
+    Extended free access for qualifying early-stage startups - larger Chat MAU,
+    Feeds API call, and Video participant-minute allowances than the standard
+    free tier, with hard limits so there are no surprise overages. Requires
+    application and approval.
+  entries:
+  - label: Chat MAU (Maker)
+    name: maker_chat_mau
+    type: usage
+    metric: users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0 within Maker allowance (reported ~2,000 MAU)
+    userMultiplied: true
+  elements:
+  - name: Higher Free Allowances
+  - name: No Credit Card Required
+  - name: Hard Usage Caps
+- id: getstream-standard
+  name: Standard / Startup
+  type: usage
+  description: >-
+    Production tier billed on usage above the free allowance. Chat and Feeds are
+    billed on Monthly Active Users; Video and Audio are billed on participant
+    minutes at rates that vary by resolution and features. Includes standard
+    support.
+  entries:
+  - label: Chat Monthly Active Users
+    name: standard_chat_mau
+    type: usage
+    metric: users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000
+    price: usage-based per MAU (from ~$499/mo for ~10,000 MAU; see pricing page)
+    userMultiplied: true
+  - label: Video Participant Minutes
+    name: standard_video_minutes
+    type: usage
+    metric: minutes
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000
+    price: usage-based per 1,000 participant minutes (varies by resolution)
+    userMultiplied: false
+  - label: Feeds API Calls
+    name: standard_feeds_calls
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000
+    price: usage-based per API call volume (see pricing page)
+    userMultiplied: false
+  elements:
+  - name: Production Ready
+  - name: Standard Support
+  - name: All Products
+- id: getstream-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom plan for high-MAU or high-minute deployments needing SLAs, dedicated
+    support, SSO, advanced security and compliance (SOC 2, HIPAA), multi-region,
+    and negotiated volume pricing. Contact Stream sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: SLAs and Dedicated Support
+  - name: Advanced Security and Compliance
+  - name: SSO and Multi-Region
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

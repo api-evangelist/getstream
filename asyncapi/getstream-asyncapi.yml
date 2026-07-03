@@ -1,0 +1,358 @@
+asyncapi: '2.6.0'
+id: 'urn:io:getstream:chat:websocket'
+info:
+  title: Stream Chat Realtime WebSocket API
+  version: '1.0.0'
+  description: |
+    AsyncAPI 2.6 description of Stream (GetStream.io) Chat's **real-time
+    WebSocket** surface. Unlike the request/response server-side REST API
+    (`https://chat.stream-io-api.com`, modeled in
+    `openapi/getstream-openapi.yml`), Stream's client SDKs establish a
+    persistent, bidirectional **WebSocket** connection to receive real-time chat
+    events.
+
+    Per Stream's official docs (getstream.io/chat/docs), every client-side chat
+    integration opens a WebSocket connection via `client.connectUser()`; the
+    connection is how devices receive real-time events. Stream limits the number
+    of open connections per user to 50 in production and 3 in development.
+
+    ## How the connection is opened
+    A client connects by opening a WebSocket to `wss://chat.stream-io-api.com/connect`
+    with the connection payload and credentials passed as query parameters:
+
+    - `json` - a URL-encoded JSON object containing `user_details` (at minimum
+      the `id`) and `user_token`.
+    - `api_key` - the application API key.
+    - `authorization` - the user's JWT.
+    - `stream-auth-type` - the literal string `jwt`.
+
+    On a successful handshake the server immediately emits a `health.check` event
+    carrying a `connection_id`; this same event is re-sent periodically as a
+    heartbeat to keep the socket alive. Thereafter the server pushes chat events
+    (message.new, typing.start, reaction.new, notification.*, user.presence.changed,
+    and others) for the channels the user is watching. The client sends `health.check`
+    events back as keep-alives.
+
+    Event names and fields are taken from Stream's documented event object
+    (getstream.io/chat/docs/node/event_object).
+  contact:
+    name: API Evangelist
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
+  license:
+    name: API documentation - Stream Terms
+    url: https://getstream.io/legal/terms/
+  x-transport-notes:
+    transport: WebSocket
+    protocol: wss
+    endpoint: 'wss://chat.stream-io-api.com/connect'
+    direction: bidirectional
+    openedBy: 'client.connectUser() in the Stream Chat SDKs'
+    heartbeat: 'health.check events, sent both by server and client'
+    connectionLimit: '50 concurrent connections per user in production, 3 in development'
+    source: https://getstream.io/chat/docs/node/event_object/
+defaultContentType: application/json
+servers:
+  production:
+    url: chat.stream-io-api.com
+    protocol: wss
+    description: |
+      Stream Chat real-time WebSocket edge. The client opens
+      `wss://chat.stream-io-api.com/connect?json={payload}&api_key={key}&authorization={jwt}&stream-auth-type=jwt`.
+    security:
+      - jwtUser: []
+channels:
+  /connect:
+    description: |
+      The single multiplexed WebSocket channel. After the handshake, the server
+      pushes all real-time events for the connected user across every channel
+      they watch, and the client publishes keep-alive `health.check` events.
+    bindings:
+      ws:
+        bindingVersion: '0.1.0'
+        query:
+          type: object
+          properties:
+            json:
+              type: string
+              description: URL-encoded JSON with user_details and user_token.
+            api_key:
+              type: string
+              description: Application API key.
+            authorization:
+              type: string
+              description: The user JWT.
+            stream-auth-type:
+              type: string
+              enum:
+                - jwt
+    subscribe:
+      operationId: receiveEvents
+      summary: Receive real-time chat events pushed by Stream.
+      description: |
+        Events the server pushes to the connected client over the WebSocket.
+        Each event is a JSON object with at least a `type` field; many also carry
+        `cid`, `user`, `message`, `reaction`, `channel`, `watcher_count`, and
+        `total_unread_count`.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/HealthCheck'
+          - $ref: '#/components/messages/MessageNew'
+          - $ref: '#/components/messages/MessageUpdated'
+          - $ref: '#/components/messages/MessageDeleted'
+          - $ref: '#/components/messages/MessageRead'
+          - $ref: '#/components/messages/ReactionNew'
+          - $ref: '#/components/messages/TypingStart'
+          - $ref: '#/components/messages/TypingStop'
+          - $ref: '#/components/messages/UserPresenceChanged'
+          - $ref: '#/components/messages/UserWatchingStart'
+          - $ref: '#/components/messages/NotificationMessageNew'
+          - $ref: '#/components/messages/NotificationAddedToChannel'
+    publish:
+      operationId: sendKeepAlive
+      summary: Send keep-alive events to Stream.
+      description: |
+        The client periodically publishes a `health.check` event to keep the
+        WebSocket connection alive.
+      message:
+        $ref: '#/components/messages/HealthCheck'
+components:
+  securitySchemes:
+    jwtUser:
+      type: httpApiKey
+      in: query
+      name: authorization
+      description: |
+        The user JWT passed as the `authorization` query parameter, alongside
+        `stream-auth-type=jwt` and the application `api_key`.
+  messages:
+    HealthCheck:
+      name: health.check
+      title: Health check / connection heartbeat
+      summary: Connection keep-alive; the first one carries the connection_id.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/HealthCheckEvent'
+      examples:
+        - name: firstHealthCheck
+          summary: First event after handshake, carrying connection_id
+          payload:
+            type: health.check
+            connection_id: 8a3b2c1d-1234-5678-9abc-def012345678
+            created_at: '2026-07-03T12:00:00Z'
+            me:
+              id: john
+              role: user
+              online: true
+    MessageNew:
+      name: message.new
+      title: New message
+      summary: A new message was sent to a channel the user watches.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+      examples:
+        - name: messageNew
+          payload:
+            type: message.new
+            cid: messaging:general
+            channel_id: general
+            channel_type: messaging
+            user:
+              id: john
+            message:
+              id: 8f2a1b3c
+              text: Hello everyone
+              type: regular
+            watcher_count: 5
+            created_at: '2026-07-03T12:00:01Z'
+    MessageUpdated:
+      name: message.updated
+      title: Message updated
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+    MessageDeleted:
+      name: message.deleted
+      title: Message deleted
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+    MessageRead:
+      name: message.read
+      title: Channel marked read
+      summary: A user marked a channel read; unread counts changed.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+    ReactionNew:
+      name: reaction.new
+      title: New reaction
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+      examples:
+        - name: reactionNew
+          payload:
+            type: reaction.new
+            cid: messaging:general
+            user:
+              id: jane
+            message:
+              id: 8f2a1b3c
+            reaction:
+              type: like
+              score: 1
+            created_at: '2026-07-03T12:00:02Z'
+    TypingStart:
+      name: typing.start
+      title: Typing started
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+    TypingStop:
+      name: typing.stop
+      title: Typing stopped
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+    UserPresenceChanged:
+      name: user.presence.changed
+      title: User presence changed
+      summary: A watched user's online/offline presence changed.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+    UserWatchingStart:
+      name: user.watching.start
+      title: User started watching a channel
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+    NotificationMessageNew:
+      name: notification.message_new
+      title: Notification - new message
+      summary: >-
+        A new message arrived in a channel the user is a member of but is not
+        currently watching.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+    NotificationAddedToChannel:
+      name: notification.added_to_channel
+      title: Notification - added to a channel
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Event'
+  schemas:
+    HealthCheckEvent:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - health.check
+        connection_id:
+          type: string
+          description: The id assigned to this WebSocket connection. Present on the first event.
+        created_at:
+          type: string
+          format: date-time
+        me:
+          $ref: '#/components/schemas/OwnUser'
+    Event:
+      type: object
+      description: |
+        The generic Stream Chat event envelope. `type` is always present; the
+        other fields appear depending on the event type, per
+        getstream.io/chat/docs/node/event_object.
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          description: The event type, e.g. message.new, typing.start, reaction.new.
+        cid:
+          type: string
+          description: The channel id in "{type}:{id}" form.
+        channel_id:
+          type: string
+        channel_type:
+          type: string
+        message:
+          $ref: '#/components/schemas/Message'
+        reaction:
+          $ref: '#/components/schemas/Reaction'
+        user:
+          $ref: '#/components/schemas/User'
+        member:
+          type: object
+        channel:
+          type: object
+        watcher_count:
+          type: integer
+        total_unread_count:
+          type: integer
+        unread_channels:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        type:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        parent_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Reaction:
+      type: object
+      properties:
+        type:
+          type: string
+        score:
+          type: integer
+        user_id:
+          type: string
+        message_id:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+        online:
+          type: boolean
+        name:
+          type: string
+        image:
+          type: string
+        last_active:
+          type: string
+          format: date-time
+    OwnUser:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            total_unread_count:
+              type: integer
+            unread_channels:
+              type: integer
+            devices:
+              type: array
+              items:
+                type: object

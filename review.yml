@@ -1,0 +1,154 @@
+aid: getstream
+name: Stream
+review:
+  question: Does Stream expose a documented public WebSocket API?
+  answer: true
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    Stream (GetStream.io) Chat documents a real, bidirectional WebSocket
+    connection as the transport for all client-side real-time events. Per the
+    official docs (getstream.io/chat/docs), every client-side chat integration
+    opens a WebSocket via client.connectUser(); devices rely on this WebSocket
+    to receive real-time events, and Stream limits open connections to 50 per
+    user in production (3 in development). An AsyncAPI 2.6 document was authored
+    at asyncapi/getstream-asyncapi.yml modeling the wss://chat.stream-io-api.com/connect
+    channel and its key server-pushed events (health.check, message.new,
+    message.updated, message.deleted, message.read, reaction.new, typing.start,
+    typing.stop, user.presence.changed, user.watching.start,
+    notification.message_new, notification.added_to_channel) plus the client
+    health.check keep-alive. This is a genuine WebSocket surface, not SSE.
+findings:
+  summary: |
+    Yes. Stream is an API-first communications platform (Chat, Activity Feeds,
+    Video/Audio, Moderation). Its server-side control plane is a documented REST
+    API at https://chat.stream-io-api.com, published as an OpenAPI at
+    github.com/GetStream/protocol (openapi/chat-openapi.yaml) and rendered at
+    getstream.github.io/protocol. Authentication is a JWT sent in the
+    Authorization header with a Stream-Auth-Type: jwt header and the application
+    api_key as a query parameter. Separately, Stream's client SDKs open a
+    persistent WebSocket connection to wss://chat.stream-io-api.com/connect
+    (opened by connectUser(), with json/api_key/authorization/stream-auth-type
+    query parameters) to receive real-time chat events. The server sends a
+    health.check event carrying a connection_id on connect and as a heartbeat.
+    This is a documented, public, bidirectional WebSocket API.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://chat.stream-io-api.com
+      documented: true
+      note: Server-side Chat control plane. Feeds use https://api.stream-io-api.com and Video uses https://video.stream-io-api.com.
+    - protocol: WebSocket
+      scheme: wss
+      endpoint: wss://chat.stream-io-api.com/connect
+      documented: true
+      note: Real-time event transport opened by client.connectUser(); receives message.new, typing.*, reaction.new, user.presence.changed, notification.*, and health.check heartbeats. 50 connections/user in production, 3 in development.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Stream can also POST events to a configured webhook/SQS/SNS endpoint server-side; complementary to, not a replacement for, the client WebSocket.
+  realOpenAPI: |
+    Yes. Stream publishes its own OpenAPI for the Chat server-side API at
+    https://raw.githubusercontent.com/GetStream/protocol/main/openapi/chat-openapi.yaml
+    (servers: https://chat.stream-io-api.com). The catalog's
+    openapi/getstream-openapi.yml is a curated subset whose paths and methods are
+    grounded in that published spec.
+  endpointsConfirmedRest:
+    - POST   https://chat.stream-io-api.com/channels
+    - POST   https://chat.stream-io-api.com/channels/{type}/{id}
+    - PATCH  https://chat.stream-io-api.com/channels/{type}/{id}
+    - DELETE https://chat.stream-io-api.com/channels/{type}/{id}
+    - POST   https://chat.stream-io-api.com/channels/{type}/{id}/query
+    - POST   https://chat.stream-io-api.com/channels/{type}/{id}/message
+    - PATCH  https://chat.stream-io-api.com/channels/{type}/{id}/member
+    - POST   https://chat.stream-io-api.com/channels/{type}/{id}/truncate
+    - POST   https://chat.stream-io-api.com/channels/{type}/{id}/read
+    - GET    https://chat.stream-io-api.com/members
+    - GET    https://chat.stream-io-api.com/messages/{id}
+    - POST   https://chat.stream-io-api.com/messages/{id}
+    - PUT    https://chat.stream-io-api.com/messages/{id}
+    - DELETE https://chat.stream-io-api.com/messages/{id}
+    - POST   https://chat.stream-io-api.com/messages/{id}/reaction
+    - DELETE https://chat.stream-io-api.com/messages/{id}/reaction/{type}
+    - GET    https://chat.stream-io-api.com/messages/{parent_id}/replies
+    - POST   https://chat.stream-io-api.com/threads
+    - GET    https://chat.stream-io-api.com/threads/{message_id}
+    - PATCH  https://chat.stream-io-api.com/threads/{message_id}
+    - GET    https://chat.stream-io-api.com/users
+    - POST   https://chat.stream-io-api.com/users
+    - PATCH  https://chat.stream-io-api.com/users
+    - POST   https://chat.stream-io-api.com/users/{user_id}/deactivate
+    - GET    https://chat.stream-io-api.com/devices
+    - POST   https://chat.stream-io-api.com/devices
+    - DELETE https://chat.stream-io-api.com/devices
+    - POST   https://chat.stream-io-api.com/moderation/ban
+    - DELETE https://chat.stream-io-api.com/moderation/ban
+    - POST   https://chat.stream-io-api.com/moderation/flag
+    - POST   https://chat.stream-io-api.com/moderation/mute
+    - GET    https://chat.stream-io-api.com/permissions
+    - GET    https://chat.stream-io-api.com/permissions/{id}
+    - GET    https://chat.stream-io-api.com/roles
+    - POST   https://chat.stream-io-api.com/roles
+    - DELETE https://chat.stream-io-api.com/roles/{name}
+    - POST   https://chat.stream-io-api.com/campaigns
+    - GET    https://chat.stream-io-api.com/campaigns/{id}
+    - PUT    https://chat.stream-io-api.com/campaigns/{id}
+    - DELETE https://chat.stream-io-api.com/campaigns/{id}
+    - POST   https://chat.stream-io-api.com/campaigns/{id}/start
+    - POST   https://chat.stream-io-api.com/campaigns/{id}/stop
+    - GET    https://chat.stream-io-api.com/search
+    - GET    https://chat.stream-io-api.com/rate_limits
+  endpointsConfirmedWebSocket:
+    - CONNECT wss://chat.stream-io-api.com/connect
+    - EVENT   health.check
+    - EVENT   message.new
+    - EVENT   message.updated
+    - EVENT   message.deleted
+    - EVENT   message.read
+    - EVENT   reaction.new
+    - EVENT   typing.start
+    - EVENT   typing.stop
+    - EVENT   user.presence.changed
+    - EVENT   user.watching.start
+    - EVENT   notification.message_new
+    - EVENT   notification.added_to_channel
+  endpointsModeled:
+    - Activity Feeds (https://api.stream-io-api.com) and Video/Audio
+      (https://video.stream-io-api.com) are listed as APIs but their endpoints
+      were represented at the product level, not enumerated in the OpenAPI. Both
+      have their own published protocol specs at github.com/GetStream/protocol
+      (feeds-openapi / video-openapi) that can be enumerated in a future pass.
+sources:
+  - url: https://getstream.io/
+    type: Website
+    note: Scalable Chat, Video and Activity Feed APIs and SDKs.
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+    note: Rendered Chat OpenAPI; server base https://chat.stream-io-api.com.
+  - url: https://raw.githubusercontent.com/GetStream/protocol/main/openapi/chat-openapi.yaml
+    type: OpenAPI
+    note: Stream's own published Chat OpenAPI (servers -> https://chat.stream-io-api.com).
+  - url: https://getstream.io/chat/docs/node/event_object/
+    type: Documentation
+    note: Enumerates WebSocket event types (message.new, typing.start, reaction.new, notification.*, health.check, etc).
+  - url: https://getstream.io/chat/docs/node/instantiating_the_client/
+    type: Documentation
+    note: connectUser() opens the WebSocket; 50 connections/user in production, 3 in development.
+  - url: https://getstream.io/chat/docs/node/rate_limits/
+    type: Documentation
+    note: Per-endpoint per-platform 1-minute limits; X-RateLimit-* headers; 429 on throttle.
+  - url: https://getstream.io/chat/pricing/
+    type: Pricing
+    note: MAU-based Chat pricing (Build/free, Startup/Standard, Enterprise).
+  - url: https://getstream.io/blog/maker-account/
+    type: Documentation
+    note: Free Maker account allowances for Chat, Feeds, Video, and Moderation.
+actions:
+  asyncapiPath: asyncapi/getstream-asyncapi.yml
+  apisYmlUpdated: true
+  reason: |
+    Stream documents a genuine public WebSocket API for real-time chat events, so
+    the review answer is true and an AsyncAPI 2.6 document was authored modeling
+    the wss://chat.stream-io-api.com/connect channel and its events. The AsyncAPI
+    property is wired into the Chat Channels API entry in apis.yml.

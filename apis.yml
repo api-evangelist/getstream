@@ -1,0 +1,272 @@
+aid: getstream
+url: https://raw.githubusercontent.com/api-evangelist/getstream/refs/heads/main/apis.yml
+name: Stream
+kind: company
+description: Stream (GetStream.io) provides scalable, API-first infrastructure for
+  in-app chat messaging, activity feeds, audio/video calling and livestreaming, and
+  AI moderation. The server-side platform is a documented REST API (base
+  https://chat.stream-io-api.com for Chat) with JWT authentication, complemented by
+  client SDKs that open a persistent WebSocket connection to receive real-time
+  events - message.new, typing.start, user.presence.changed, reaction.new,
+  notification.* and periodic health.check heartbeats. Products are metered on
+  monthly active users (Chat) and participant minutes (Video), with Free/Maker,
+  Standard (Startup) and Enterprise tiers.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Chat
+- Messaging
+- Activity Feeds
+- Video
+- Audio
+- Moderation
+- WebSocket
+- Real Time
+created: '2026-07-03'
+modified: '2026-07-03'
+specificationVersion: '0.19'
+apis:
+- aid: getstream:getstream-chat-channels-api
+  name: Stream Chat Channels API
+  tags:
+  - Chat
+  - Channels
+  - Messaging
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/chat/docs/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/chat/docs/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  - url: asyncapi/getstream-asyncapi.yml
+    type: AsyncAPI
+  description: Query, get-or-create, update, truncate, and delete chat channels, and
+    mark them read. Channels are the containers that hold messages, members, reads,
+    and reactions, addressed by a channel type and id (e.g. messaging:general).
+- aid: getstream:getstream-chat-messages-api
+  name: Stream Chat Messages API
+  tags:
+  - Chat
+  - Messages
+  - Threads
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/chat/docs/node/send_message/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/chat/docs/node/send_message/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  description: Send, get, update, and delete messages within a channel, fetch thread
+    replies and message history, and run message search across an application's
+    channels.
+- aid: getstream:getstream-chat-members-api
+  name: Stream Chat Members API
+  tags:
+  - Chat
+  - Members
+  - Channels
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/chat/docs/node/channel_members/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/chat/docs/node/channel_members/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  description: Query channel members with filtering and sorting, and partially update
+    a member's channel-scoped attributes such as role, notifications, and pinned or
+    archived state.
+- aid: getstream:getstream-chat-reactions-api
+  name: Stream Chat Reactions API
+  tags:
+  - Chat
+  - Reactions
+  - Messages
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/chat/docs/node/send_reaction/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/chat/docs/node/send_reaction/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  description: Add, list, and remove emoji reactions on messages. Reactions carry a
+    type (like, love, haha) and optional score, and emit reaction.new and
+    reaction.deleted real-time events.
+- aid: getstream:getstream-chat-threads-api
+  name: Stream Chat Threads API
+  tags:
+  - Chat
+  - Threads
+  - Replies
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/chat/docs/node/threads/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/chat/docs/node/threads/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  description: Query threads a user participates in, retrieve a single thread by its
+    parent message id, and partially update thread metadata. Threads group replies
+    under a parent message.
+- aid: getstream:getstream-chat-users-api
+  name: Stream Chat Users API
+  tags:
+  - Users
+  - Identity
+  - Presence
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/chat/docs/node/update_users/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/chat/docs/node/update_users/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  description: Upsert, query, and partially update users, and deactivate or reactivate
+    them. Users carry custom data and roles and are the identities that connect over
+    the WebSocket and appear as channel members.
+- aid: getstream:getstream-chat-devices-push-api
+  name: Stream Chat Devices and Push API
+  tags:
+  - Devices
+  - Push
+  - Notifications
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/chat/docs/node/push_devices/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/chat/docs/node/push_devices/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  description: Register, list, and remove a user's push devices (APNs, Firebase) so
+    Stream can deliver offline push notifications, and manage push providers for the
+    application.
+- aid: getstream:getstream-chat-moderation-api
+  name: Stream Chat Moderation API
+  tags:
+  - Moderation
+  - Safety
+  - Trust and Safety
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/moderation/docs/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/moderation/docs/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  description: Ban and unban users, flag messages and users for review, and mute or
+    unmute users and channels. Backs Stream's AI-powered trust and safety and content
+    moderation workflows.
+- aid: getstream:getstream-chat-permissions-roles-api
+  name: Stream Chat Permissions and Roles API
+  tags:
+  - Permissions
+  - Roles
+  - Authorization
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/chat/docs/node/permissions_reference/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/chat/docs/node/permissions_reference/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  description: List permissions, create and delete custom roles, and inspect the
+    role-based access control that governs what users and channel members are allowed
+    to do across the application.
+- aid: getstream:getstream-chat-campaigns-api
+  name: Stream Chat Campaigns API
+  tags:
+  - Campaigns
+  - Segments
+  - Messaging
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/chat/docs/node/campaigns/
+  baseURL: https://chat.stream-io-api.com
+  properties:
+  - url: https://getstream.io/chat/docs/node/campaigns/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Chat
+    type: APIReference
+  - url: openapi/getstream-openapi.yml
+    type: OpenAPI
+  description: Create, update, and delete bulk messaging campaigns and start or stop
+    their delivery to user segments. Used to send templated messages to targeted
+    audiences at scale.
+- aid: getstream:getstream-activity-feeds-api
+  name: Stream Activity Feeds API
+  tags:
+  - Activity Feeds
+  - Timeline
+  - Social
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/activity-feeds/docs/
+  baseURL: https://api.stream-io-api.com
+  properties:
+  - url: https://getstream.io/activity-feeds/docs/
+    type: Documentation
+  - url: https://getstream.io/activity-feeds/docs/rest/
+    type: APIReference
+  description: Build scalable activity feeds and timelines - add activities to feeds,
+    follow and unfollow feeds, aggregate and rank activities, and fan out to
+    followers. Powers social timelines, notification feeds, and news feeds.
+- aid: getstream:getstream-video-audio-api
+  name: Stream Video and Audio API
+  tags:
+  - Video
+  - Audio
+  - Calling
+  - Livestream
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://getstream.io/video/docs/api/
+  baseURL: https://video.stream-io-api.com
+  properties:
+  - url: https://getstream.io/video/docs/api/
+    type: Documentation
+  - url: https://getstream.github.io/protocol/?urls.primaryName=Video
+    type: APIReference
+  description: Create and manage audio/video calls and livestreams - get-or-create
+    calls, manage call members and permissions, start and stop recording,
+    transcription, and broadcasting. Metered on participant minutes.
+common:
+- type: GitHubOrganization
+  url: https://github.com/GetStream
+- type: LinkedIn
+  url: https://www.linkedin.com/company/getstream
+- type: Website
+  url: https://getstream.io
+- type: Documentation
+  url: https://getstream.io/chat/docs/
+- type: Plans
+  url: plans/getstream-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/getstream-rate-limits.yml
+- type: FinOps
+  url: finops/getstream-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

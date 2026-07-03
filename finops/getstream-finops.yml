@@ -1,0 +1,100 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Stream
+providerId: getstream
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Chat
+- Activity Feeds
+- Video
+- Moderation
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Stream spend. Stream is a usage-metered communications platform:
+  Chat and Activity Feeds are billed primarily on Monthly Active Users (MAU),
+  Video and Audio on participant minutes, and AI Moderation on moderated
+  volume/credits. Because MAU counts any unique user who connects in a month,
+  the dominant cost driver is active-user growth rather than raw API call
+  volume; the second driver is Video participant minutes, which scale with call
+  length, participant count, and resolution. A free (and larger Maker) allowance
+  covers early usage before Standard usage-based billing and Enterprise contracts
+  apply.
+notes: >-
+  Per-unit rates are not reconciled here; verify on the per-product pricing
+  pages. Watch WebSocket connection hygiene (one connectUser per user session) -
+  duplicate connections can inflate MAU-adjacent behavior and cost.
+sources:
+- https://getstream.io/chat/pricing/
+- https://getstream.io/video/pricing/
+- https://getstream.io/activity-feeds/pricing/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Stream
+serviceCategory: Communication and Collaboration
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Stream
+  ServiceCategory: Communication and Collaboration
+  ProviderName: Stream
+  PublisherName: Stream
+  InvoiceIssuerName: Stream
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: chat_mau
+  description: Monthly active users connecting to Stream Chat, the primary Chat billing dimension.
+  unit: users
+  aggregation: unique_count
+  dimensions:
+  - application
+  - environment
+- name: feeds_mau_or_calls
+  description: Activity Feeds usage, metered on monthly active users and/or API call volume.
+  unit: users
+  aggregation: unique_count
+  dimensions:
+  - application
+- name: video_participant_minutes
+  description: Audio/Video participant minutes, billed per 1,000 and varying by resolution and features.
+  unit: minutes
+  aggregation: sum
+  dimensions:
+  - application
+  - resolution
+  - call_type
+- name: moderation_volume
+  description: AI moderation usage, drawn against moderation credits.
+  unit: items
+  aggregation: sum
+  dimensions:
+  - application
+principles:
+- name: Visibility
+  description: Track Chat MAU and Video participant minutes per application and environment; separate dev from production.
+- name: Allocation
+  description: Split apps/environments per team or product so MAU and minutes map to cost centers.
+- name: Optimization
+  description: Reuse a single WebSocket connection per user session; right-size video resolution; prune inactive users to control MAU; use the Maker allowance while eligible.
+- name: Accountability
+  description: Assign owners per application; review monthly MAU and participant-minute trends against tier allowances before overage.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

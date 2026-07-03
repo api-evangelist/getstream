@@ -1,0 +1,1289 @@
+openapi: 3.0.3
+info:
+  title: Stream Chat API (Server-side REST)
+  description: >-
+    Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset
+    of Stream's published Chat protocol (https://getstream.github.io/protocol),
+    grounding the endpoints modeled in the API Evangelist catalog against the real
+    base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com.
+    Every request carries the application `api_key` as a query parameter and is
+    authenticated with a JWT sent in the `Authorization` header together with a
+    `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are
+    used for the operations in this document; client tokens are used to open the
+    real-time WebSocket connection modeled in the companion AsyncAPI document.
+
+    Path and method choices here are taken from Stream's official
+    chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies
+    are represented generically; consult the linked protocol reference for the full
+    schemas.
+  version: '1.0'
+  contact:
+    name: API Evangelist
+    url: https://apievangelist.com
+    email: kin@apievangelist.com
+  license:
+    name: API documentation - Stream Terms
+    url: https://getstream.io/legal/terms/
+servers:
+  - url: https://chat.stream-io-api.com
+    description: Stream Chat API (edge, global)
+security:
+  - JWT: []
+    ApiKey: []
+tags:
+  - name: Channels
+    description: Query, create, update, truncate, and delete chat channels.
+  - name: Messages
+    description: Send, retrieve, update, delete, and search messages and replies.
+  - name: Members
+    description: Query and partially update channel members.
+  - name: Reactions
+    description: Add and remove emoji reactions on messages.
+  - name: Threads
+    description: Query and retrieve message threads.
+  - name: Users
+    description: Upsert, query, update, deactivate, and reactivate users.
+  - name: Devices
+    description: Register and manage push notification devices.
+  - name: Moderation
+    description: Ban, flag, and mute users, messages, and channels.
+  - name: Permissions
+    description: Inspect application permissions.
+  - name: Roles
+    description: List, create, and delete custom roles.
+  - name: Campaigns
+    description: Create and control bulk messaging campaigns.
+  - name: Application
+    description: Application-level utilities such as rate limits and search.
+paths:
+  /channels:
+    post:
+      operationId: QueryChannels
+      tags:
+        - Channels
+      summary: Query channels
+      description: >-
+        Query the channels a user has access to, using a filter, sort, and
+        pagination. Returns channel state including members, messages, reads,
+        and channel configuration.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryChannelsRequest'
+      responses:
+        '200':
+          description: A list of channels with their state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /channels/{type}/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ChannelType'
+      - $ref: '#/components/parameters/ChannelId'
+    post:
+      operationId: UpdateChannel
+      tags:
+        - Channels
+      summary: Update a channel (overwrite)
+      description: Overwrite a channel's custom data and, optionally, its member set.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/Channel'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: UpdateChannelPartial
+      tags:
+        - Channels
+      summary: Partially update a channel
+      description: Set or unset individual fields of a channel's custom data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                set:
+                  type: object
+                unset:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Channel'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      operationId: DeleteChannel
+      tags:
+        - Channels
+      summary: Delete a channel
+      description: Delete a channel and all of its messages (soft or hard delete).
+      parameters:
+        - name: hard_delete
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          $ref: '#/components/responses/Channel'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /channels/{type}/{id}/query:
+    parameters:
+      - $ref: '#/components/parameters/ChannelType'
+      - $ref: '#/components/parameters/ChannelId'
+    post:
+      operationId: GetOrCreateChannel
+      tags:
+        - Channels
+      summary: Get or create a channel
+      description: >-
+        Fetch a channel's full state, creating it if it does not yet exist, and
+        optionally start watching it. This is the primary way to load a channel.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                watch:
+                  type: boolean
+                state:
+                  type: boolean
+                presence:
+                  type: boolean
+                data:
+                  type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/Channel'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /channels/{type}/{id}/message:
+    parameters:
+      - $ref: '#/components/parameters/ChannelType'
+      - $ref: '#/components/parameters/ChannelId'
+    post:
+      operationId: SendMessage
+      tags:
+        - Messages
+      summary: Send a message
+      description: >-
+        Send a new message to a channel. Emits a `message.new` event over the
+        WebSocket to watchers of the channel.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/Message'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /channels/{type}/{id}/member:
+    parameters:
+      - $ref: '#/components/parameters/ChannelType'
+      - $ref: '#/components/parameters/ChannelId'
+    patch:
+      operationId: UpdateMemberPartial
+      tags:
+        - Members
+      summary: Partially update a channel member
+      description: >-
+        Set or unset channel-scoped attributes for a member, such as
+        notifications muted, pinned, or archived state.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                set:
+                  type: object
+                unset:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: The updated channel member.
+          content:
+            application/json:
+              schema:
+                type: object
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /channels/{type}/{id}/truncate:
+    parameters:
+      - $ref: '#/components/parameters/ChannelType'
+      - $ref: '#/components/parameters/ChannelId'
+    post:
+      operationId: TruncateChannel
+      tags:
+        - Channels
+      summary: Truncate a channel
+      description: Remove all messages from a channel while keeping the channel itself.
+      responses:
+        '200':
+          $ref: '#/components/responses/Channel'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /channels/{type}/{id}/read:
+    parameters:
+      - $ref: '#/components/parameters/ChannelType'
+      - $ref: '#/components/parameters/ChannelId'
+    post:
+      operationId: MarkRead
+      tags:
+        - Channels
+      summary: Mark a channel read
+      description: >-
+        Mark messages in a channel as read for a user, updating unread counts and
+        emitting a `message.read` event.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Read state updated.
+          content:
+            application/json:
+              schema:
+                type: object
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /members:
+    get:
+      operationId: QueryMembers
+      tags:
+        - Members
+      summary: Query members
+      description: Query channel members across the application with filtering and sorting.
+      parameters:
+        - name: payload
+          in: query
+          description: URL-encoded JSON query (filter_conditions, sort, limit, offset).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of members.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  members:
+                    type: array
+                    items:
+                      type: object
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /messages/{id}:
+    parameters:
+      - $ref: '#/components/parameters/MessageId'
+    get:
+      operationId: GetMessage
+      tags:
+        - Messages
+      summary: Get a message
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: UpdateMessage
+      tags:
+        - Messages
+      summary: Update a message (overwrite)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+    put:
+      operationId: UpdateMessagePartial
+      tags:
+        - Messages
+      summary: Partially update a message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                set:
+                  type: object
+                unset:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+    delete:
+      operationId: DeleteMessage
+      tags:
+        - Messages
+      summary: Delete a message
+      parameters:
+        - name: hard
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /messages/{id}/reaction:
+    parameters:
+      - $ref: '#/components/parameters/MessageId'
+    post:
+      operationId: SendReaction
+      tags:
+        - Reactions
+      summary: Send a reaction
+      description: Add an emoji reaction to a message, emitting a `reaction.new` event.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reaction:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: like
+                    score:
+                      type: integer
+      responses:
+        '201':
+          $ref: '#/components/responses/Message'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /messages/{id}/reaction/{type}:
+    parameters:
+      - $ref: '#/components/parameters/MessageId'
+      - name: type
+        in: path
+        required: true
+        description: The reaction type to remove (e.g. like).
+        schema:
+          type: string
+    delete:
+      operationId: DeleteReaction
+      tags:
+        - Reactions
+      summary: Delete a reaction
+      description: Remove a user's reaction of a given type from a message.
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /messages/{parent_id}/replies:
+    parameters:
+      - name: parent_id
+        in: path
+        required: true
+        description: The id of the parent message whose thread replies to fetch.
+        schema:
+          type: string
+    get:
+      operationId: GetReplies
+      tags:
+        - Messages
+      summary: Get thread replies
+      description: Paginate the replies under a parent (thread) message.
+      responses:
+        '200':
+          description: A list of reply messages.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Message'
+  /threads:
+    post:
+      operationId: QueryThreads
+      tags:
+        - Threads
+      summary: Query threads
+      description: Query the threads a user participates in.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: A list of threads.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  threads:
+                    type: array
+                    items:
+                      type: object
+  /threads/{message_id}:
+    parameters:
+      - name: message_id
+        in: path
+        required: true
+        description: The parent message id identifying the thread.
+        schema:
+          type: string
+    get:
+      operationId: GetThread
+      tags:
+        - Threads
+      summary: Get a thread
+      responses:
+        '200':
+          description: The thread and its metadata.
+          content:
+            application/json:
+              schema:
+                type: object
+    patch:
+      operationId: UpdateThreadPartial
+      tags:
+        - Threads
+      summary: Partially update a thread
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: The updated thread.
+          content:
+            application/json:
+              schema:
+                type: object
+  /users:
+    get:
+      operationId: QueryUsers
+      tags:
+        - Users
+      summary: Query users
+      description: Query users with filtering, sorting, and pagination.
+      parameters:
+        - name: payload
+          in: query
+          description: URL-encoded JSON query (filter_conditions, sort, limit, offset).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+    post:
+      operationId: UpsertUsers
+      tags:
+        - Users
+      summary: Upsert users
+      description: Create or update a batch of users by id.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: The upserted users keyed by id.
+          content:
+            application/json:
+              schema:
+                type: object
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: UpdateUsersPartial
+      tags:
+        - Users
+      summary: Partially update users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  items:
+                    type: object
+      responses:
+        '200':
+          description: The updated users.
+          content:
+            application/json:
+              schema:
+                type: object
+  /users/{user_id}/deactivate:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: DeactivateUser
+      tags:
+        - Users
+      summary: Deactivate a user
+      description: Deactivate a user, preventing them from connecting or sending messages.
+      responses:
+        '200':
+          description: The deactivated user.
+          content:
+            application/json:
+              schema:
+                type: object
+  /devices:
+    get:
+      operationId: ListDevices
+      tags:
+        - Devices
+      summary: List devices
+      description: List the push devices registered for a user.
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of devices.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  devices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Device'
+    post:
+      operationId: CreateDevice
+      tags:
+        - Devices
+      summary: Register a device
+      description: Register a push device (APNs or Firebase) for a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+      responses:
+        '201':
+          description: Device registered.
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      operationId: DeleteDevice
+      tags:
+        - Devices
+      summary: Remove a device
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: user_id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Device removed.
+          content:
+            application/json:
+              schema:
+                type: object
+  /moderation/ban:
+    post:
+      operationId: Ban
+      tags:
+        - Moderation
+      summary: Ban a user
+      description: Ban a user globally or within a specific channel, optionally with a timeout.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target_user_id:
+                  type: string
+                timeout:
+                  type: integer
+                reason:
+                  type: string
+                type:
+                  type: string
+                id:
+                  type: string
+      responses:
+        '200':
+          description: User banned.
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      operationId: Unban
+      tags:
+        - Moderation
+      summary: Unban a user
+      parameters:
+        - name: target_user_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User unbanned.
+          content:
+            application/json:
+              schema:
+                type: object
+  /moderation/flag:
+    post:
+      operationId: Flag
+      tags:
+        - Moderation
+      summary: Flag a message or user
+      description: Flag a message or user for moderation review.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target_message_id:
+                  type: string
+                target_user_id:
+                  type: string
+                reason:
+                  type: string
+      responses:
+        '200':
+          description: Flag created.
+          content:
+            application/json:
+              schema:
+                type: object
+  /moderation/mute:
+    post:
+      operationId: MuteUser
+      tags:
+        - Moderation
+      summary: Mute a user
+      description: Mute one or more target users for the requesting user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target_ids:
+                  type: array
+                  items:
+                    type: string
+                timeout:
+                  type: integer
+      responses:
+        '200':
+          description: User(s) muted.
+          content:
+            application/json:
+              schema:
+                type: object
+  /permissions:
+    get:
+      operationId: ListPermissions
+      tags:
+        - Permissions
+      summary: List permissions
+      description: List all permissions available in the application.
+      responses:
+        '200':
+          description: A list of permissions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  permissions:
+                    type: array
+                    items:
+                      type: object
+  /permissions/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetPermission
+      tags:
+        - Permissions
+      summary: Get a permission
+      responses:
+        '200':
+          description: A single permission.
+          content:
+            application/json:
+              schema:
+                type: object
+  /roles:
+    get:
+      operationId: ListRoles
+      tags:
+        - Roles
+      summary: List roles
+      description: List all roles defined in the application.
+      responses:
+        '200':
+          description: A list of roles.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roles:
+                    type: array
+                    items:
+                      type: object
+    post:
+      operationId: CreateRole
+      tags:
+        - Roles
+      summary: Create a role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Role created.
+          content:
+            application/json:
+              schema:
+                type: object
+  /roles/{name}:
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      operationId: DeleteRole
+      tags:
+        - Roles
+      summary: Delete a role
+      responses:
+        '200':
+          description: Role deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+  /campaigns:
+    post:
+      operationId: CreateCampaign
+      tags:
+        - Campaigns
+      summary: Create a campaign
+      description: Create a bulk messaging campaign targeting a user segment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Campaign created.
+          content:
+            application/json:
+              schema:
+                type: object
+  /campaigns/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetCampaign
+      tags:
+        - Campaigns
+      summary: Get a campaign
+      responses:
+        '200':
+          description: A single campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+    put:
+      operationId: UpdateCampaign
+      tags:
+        - Campaigns
+      summary: Update a campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Campaign updated.
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      operationId: DeleteCampaign
+      tags:
+        - Campaigns
+      summary: Delete a campaign
+      responses:
+        '200':
+          description: Campaign deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+  /campaigns/{id}/start:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: StartCampaign
+      tags:
+        - Campaigns
+      summary: Start a campaign
+      responses:
+        '200':
+          description: Campaign started.
+          content:
+            application/json:
+              schema:
+                type: object
+  /campaigns/{id}/stop:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: StopCampaign
+      tags:
+        - Campaigns
+      summary: Stop a campaign
+      responses:
+        '200':
+          description: Campaign stopped.
+          content:
+            application/json:
+              schema:
+                type: object
+  /search:
+    get:
+      operationId: Search
+      tags:
+        - Application
+      summary: Search messages
+      description: Full-text search of messages across an application's channels.
+      parameters:
+        - name: payload
+          in: query
+          description: URL-encoded JSON search request (filter_conditions, query, sort, limit).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+  /rate_limits:
+    get:
+      operationId: GetRateLimits
+      tags:
+        - Application
+      summary: Get rate limits
+      description: >-
+        Return the rate limit quotas and current usage for the application,
+        optionally filtered by platform and endpoint.
+      parameters:
+        - name: server_side
+          in: query
+          schema:
+            type: boolean
+        - name: android
+          in: query
+          schema:
+            type: boolean
+        - name: ios
+          in: query
+          schema:
+            type: boolean
+        - name: web
+          in: query
+          schema:
+            type: boolean
+        - name: endpoints
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Rate limit quotas per platform and endpoint.
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        A Stream JWT sent in the `Authorization` header. Server-side tokens omit
+        the `user_id` claim; a `Stream-Auth-Type: jwt` header must accompany the
+        request.
+    ApiKey:
+      type: apiKey
+      in: query
+      name: api_key
+      description: The application API key, sent as the `api_key` query parameter on every request.
+  parameters:
+    ChannelType:
+      name: type
+      in: path
+      required: true
+      description: The channel type, e.g. messaging, livestream, team, gaming, commerce.
+      schema:
+        type: string
+    ChannelId:
+      name: id
+      in: path
+      required: true
+      description: The channel id, unique within the channel type.
+      schema:
+        type: string
+    MessageId:
+      name: id
+      in: path
+      required: true
+      description: The unique id of the message.
+      schema:
+        type: string
+  responses:
+    Channel:
+      description: A channel and its state.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChannelStateResponse'
+    Message:
+      description: A message wrapped in a response envelope.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                $ref: '#/components/schemas/Message'
+              duration:
+                type: string
+    BadRequest:
+      description: The request was malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIError'
+    Unauthorized:
+      description: Missing or invalid authentication.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIError'
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIError'
+    TooManyRequests:
+      description: >-
+        Rate limit exceeded for this app, platform, and endpoint. Inspect the
+        X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIError'
+  schemas:
+    QueryChannelsRequest:
+      type: object
+      properties:
+        filter_conditions:
+          type: object
+          description: MongoDB-style filter over channel fields.
+        sort:
+          type: array
+          items:
+            type: object
+        limit:
+          type: integer
+        offset:
+          type: integer
+        watch:
+          type: boolean
+        state:
+          type: boolean
+        presence:
+          type: boolean
+    ChannelsResponse:
+      type: object
+      properties:
+        channels:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChannelStateResponse'
+        duration:
+          type: string
+    ChannelStateResponse:
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/Channel'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        members:
+          type: array
+          items:
+            type: object
+        read:
+          type: array
+          items:
+            type: object
+        duration:
+          type: string
+    Channel:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        cid:
+          type: string
+          description: The composite channel id, "{type}:{id}".
+        member_count:
+          type: integer
+        created_by:
+          $ref: '#/components/schemas/User'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    SendMessageRequest:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: object
+          properties:
+            text:
+              type: string
+            attachments:
+              type: array
+              items:
+                type: object
+            mentioned_users:
+              type: array
+              items:
+                type: string
+            parent_id:
+              type: string
+              description: If set, the message is a reply in the given thread.
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        type:
+          type: string
+          description: regular, ephemeral, error, reply, system, or deleted.
+        cid:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        parent_id:
+          type: string
+        reaction_counts:
+          type: object
+          additionalProperties:
+            type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+        name:
+          type: string
+        image:
+          type: string
+        online:
+          type: boolean
+        last_active:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The device (push) token.
+        push_provider:
+          type: string
+          enum:
+            - apn
+            - firebase
+            - xiaomi
+            - huawei
+        push_provider_name:
+          type: string
+        user_id:
+          type: string
+    APIError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        StatusCode:
+          type: integer
+        duration:
+          type: string
+        more_info:
+          type: string

@@ -1,0 +1,406 @@
+{
+  "info": {
+    "name": "Stream Chat API (Server-side REST)",
+    "description": "Server-side REST API for Stream (GetStream.io) Chat. Base URL: https://chat.stream-io-api.com. Every request carries the application api_key as a query parameter and is authenticated with a JWT in the Authorization header plus a Stream-Auth-Type: jwt header. Paths are grounded in Stream's published protocol (github.com/GetStream/protocol). Real-time events are delivered over a separate WebSocket connection (see the AsyncAPI document).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{jwt}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://chat.stream-io-api.com", "type": "string" },
+    { "key": "api_key", "value": "", "type": "string" },
+    { "key": "jwt", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Channels",
+      "item": [
+        {
+          "name": "Query channels",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"filter_conditions\": { \"type\": \"messaging\" },\n  \"sort\": [{ \"field\": \"last_message_at\", \"direction\": -1 }],\n  \"limit\": 30\n}" },
+            "url": { "raw": "{{baseUrl}}/channels?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["channels"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "Query the channels a user has access to."
+          }
+        },
+        {
+          "name": "Get or create a channel",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"watch\": true,\n  \"state\": true,\n  \"presence\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/channels/:type/:id/query?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["channels", ":type", ":id", "query"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "type", "value": "messaging" }, { "key": "id", "value": "general" }] },
+            "description": "Fetch a channel's full state, creating it if needed and optionally watching it."
+          }
+        },
+        {
+          "name": "Truncate a channel",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/channels/:type/:id/truncate?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["channels", ":type", ":id", "truncate"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "type", "value": "messaging" }, { "key": "id", "value": "general" }] },
+            "description": "Remove all messages from a channel while keeping the channel."
+          }
+        },
+        {
+          "name": "Delete a channel",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/channels/:type/:id?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["channels", ":type", ":id"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "type", "value": "messaging" }, { "key": "id", "value": "general" }] },
+            "description": "Delete a channel and its messages."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "Send a message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"message\": {\n    \"text\": \"Hello everyone\"\n  }\n}" },
+            "url": { "raw": "{{baseUrl}}/channels/:type/:id/message?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["channels", ":type", ":id", "message"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "type", "value": "messaging" }, { "key": "id", "value": "general" }] },
+            "description": "Send a new message to a channel; emits message.new over the WebSocket."
+          }
+        },
+        {
+          "name": "Get a message",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/messages/:id?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["messages", ":id"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieve a message by id."
+          }
+        },
+        {
+          "name": "Delete a message",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/messages/:id?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["messages", ":id"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Delete a message (soft or hard)."
+          }
+        },
+        {
+          "name": "Get thread replies",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/messages/:parent_id/replies?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["messages", ":parent_id", "replies"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "parent_id", "value": "" }] },
+            "description": "Paginate replies under a parent (thread) message."
+          }
+        },
+        {
+          "name": "Search messages",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/search?api_key={{api_key}}&payload=", "host": ["{{baseUrl}}"], "path": ["search"], "query": [{ "key": "api_key", "value": "{{api_key}}" }, { "key": "payload", "value": "" }] },
+            "description": "Full-text search of messages across channels (URL-encoded JSON payload)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "Query members",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/members?api_key={{api_key}}&payload=", "host": ["{{baseUrl}}"], "path": ["members"], "query": [{ "key": "api_key", "value": "{{api_key}}" }, { "key": "payload", "value": "" }] },
+            "description": "Query channel members (URL-encoded JSON payload)."
+          }
+        },
+        {
+          "name": "Partially update a member",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"set\": { \"pinned\": true }\n}" },
+            "url": { "raw": "{{baseUrl}}/channels/:type/:id/member?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["channels", ":type", ":id", "member"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "type", "value": "messaging" }, { "key": "id", "value": "general" }] },
+            "description": "Set or unset channel-scoped attributes for a member."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reactions",
+      "item": [
+        {
+          "name": "Send a reaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"reaction\": { \"type\": \"like\", \"score\": 1 }\n}" },
+            "url": { "raw": "{{baseUrl}}/messages/:id/reaction?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["messages", ":id", "reaction"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Add an emoji reaction to a message; emits reaction.new."
+          }
+        },
+        {
+          "name": "Delete a reaction",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/messages/:id/reaction/:type?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["messages", ":id", "reaction", ":type"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "id", "value": "" }, { "key": "type", "value": "like" }] },
+            "description": "Remove a reaction of a given type from a message."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Threads",
+      "item": [
+        {
+          "name": "Query threads",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/threads?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["threads"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "Query threads the user participates in."
+          }
+        },
+        {
+          "name": "Get a thread",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/threads/:message_id?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["threads", ":message_id"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "message_id", "value": "" }] },
+            "description": "Retrieve a thread by its parent message id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Query users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/users?api_key={{api_key}}&payload=", "host": ["{{baseUrl}}"], "path": ["users"], "query": [{ "key": "api_key", "value": "{{api_key}}" }, { "key": "payload", "value": "" }] },
+            "description": "Query users (URL-encoded JSON payload)."
+          }
+        },
+        {
+          "name": "Upsert users",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"users\": {\n    \"john\": { \"id\": \"john\", \"role\": \"user\", \"name\": \"John\" }\n  }\n}" },
+            "url": { "raw": "{{baseUrl}}/users?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["users"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "Create or update a batch of users by id."
+          }
+        },
+        {
+          "name": "Deactivate a user",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/users/:user_id/deactivate?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["users", ":user_id", "deactivate"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "user_id", "value": "" }] },
+            "description": "Deactivate a user."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Devices",
+      "item": [
+        {
+          "name": "List devices",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/devices?api_key={{api_key}}&user_id=", "host": ["{{baseUrl}}"], "path": ["devices"], "query": [{ "key": "api_key", "value": "{{api_key}}" }, { "key": "user_id", "value": "" }] },
+            "description": "List a user's registered push devices."
+          }
+        },
+        {
+          "name": "Register a device",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"id\": \"<device-token>\",\n  \"push_provider\": \"firebase\",\n  \"user_id\": \"john\"\n}" },
+            "url": { "raw": "{{baseUrl}}/devices?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["devices"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "Register a push device (APNs or Firebase)."
+          }
+        },
+        {
+          "name": "Remove a device",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/devices?api_key={{api_key}}&id=&user_id=", "host": ["{{baseUrl}}"], "path": ["devices"], "query": [{ "key": "api_key", "value": "{{api_key}}" }, { "key": "id", "value": "" }, { "key": "user_id", "value": "" }] },
+            "description": "Remove a registered push device."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Moderation",
+      "item": [
+        {
+          "name": "Ban a user",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"target_user_id\": \"bad-actor\",\n  \"timeout\": 60,\n  \"reason\": \"spam\"\n}" },
+            "url": { "raw": "{{baseUrl}}/moderation/ban?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["moderation", "ban"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "Ban a user globally or within a channel."
+          }
+        },
+        {
+          "name": "Flag a message or user",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"target_message_id\": \"<message-id>\"\n}" },
+            "url": { "raw": "{{baseUrl}}/moderation/flag?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["moderation", "flag"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "Flag a message or user for moderation review."
+          }
+        },
+        {
+          "name": "Mute a user",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"target_ids\": [\"noisy-user\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/moderation/mute?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["moderation", "mute"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "Mute one or more users for the requesting user."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Permissions and Roles",
+      "item": [
+        {
+          "name": "List permissions",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/permissions?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["permissions"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "List all application permissions."
+          }
+        },
+        {
+          "name": "List roles",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/roles?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["roles"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "List all roles."
+          }
+        },
+        {
+          "name": "Create a role",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"moderator\"\n}" },
+            "url": { "raw": "{{baseUrl}}/roles?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["roles"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "Create a custom role."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Campaigns",
+      "item": [
+        {
+          "name": "Create a campaign",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Stream-Auth-Type", "value": "jwt" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/campaigns?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["campaigns"], "query": [{ "key": "api_key", "value": "{{api_key}}" }] },
+            "description": "Create a bulk messaging campaign."
+          }
+        },
+        {
+          "name": "Start a campaign",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/campaigns/:id/start?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id", "start"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Start delivering a campaign."
+          }
+        },
+        {
+          "name": "Stop a campaign",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/campaigns/:id/stop?api_key={{api_key}}", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id", "stop"], "query": [{ "key": "api_key", "value": "{{api_key}}" }], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Stop a running campaign."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Application",
+      "item": [
+        {
+          "name": "Get rate limits",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Stream-Auth-Type", "value": "jwt" }],
+            "url": { "raw": "{{baseUrl}}/rate_limits?api_key={{api_key}}&server_side=true", "host": ["{{baseUrl}}"], "path": ["rate_limits"], "query": [{ "key": "api_key", "value": "{{api_key}}" }, { "key": "server_side", "value": "true" }] },
+            "description": "Return the application's rate limit quotas per platform and endpoint."
+          }
+        }
+      ]
+    }
+  ]
+}
