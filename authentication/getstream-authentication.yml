@@ -1,0 +1,25 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/getstream-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - query
+schemes:
+- name: JWT
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: 'A Stream JWT sent in the `Authorization` header. Server-side tokens omit the
+    `user_id` claim; a `Stream-Auth-Type: jwt` header must accompany the request.'
+  sources:
+  - openapi/getstream-openapi.yml
+- name: ApiKey
+  type: apiKey
+  in: query
+  parameter: api_key
+  description: The application API key, sent as the `api_key` query parameter on every request.
+  sources:
+  - openapi/getstream-openapi.yml

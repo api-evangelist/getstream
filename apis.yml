@@ -253,6 +253,14 @@ apis:
     calls, manage call members and permissions, start and stop recording,
     transcription, and broadcasting. Metered on participant minutes.
 common:
+- type: TrustCenter
+  url: security/getstream-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/getstream-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/getstream-domain-security.yml
+- type: Authentication
+  url: authentication/getstream-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/GetStream
 - type: LinkedIn
@@ -267,6 +275,8 @@ common:
   url: rate-limits/getstream-rate-limits.yml
 - type: FinOps
   url: finops/getstream-finops.yml
+- url: https://getstream.io/blog/rss.xml
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
