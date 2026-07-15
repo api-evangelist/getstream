@@ -253,6 +253,8 @@ apis:
     calls, manage call members and permissions, start and stop recording,
     transcription, and broadcasting. Metered on participant minutes.
 common:
+- type: AgenticAccess
+  url: agentic-access/getstream-agentic-access.yml
 - type: TrustCenter
   url: security/getstream-trust-center.yml
 - type: VulnerabilityDisclosure
