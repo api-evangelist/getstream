@@ -1,0 +1,96 @@
+openapi: 3.0.3
+info:
+  title: Stream Chat API (Server-side REST) Application API
+  description: 'Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream''s published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.
+
+    Path and method choices here are taken from Stream''s official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.'
+  version: '1.0'
+  contact:
+    name: API Evangelist
+    url: https://apievangelist.com
+    email: kin@apievangelist.com
+  license:
+    name: API documentation - Stream Terms
+    url: https://getstream.io/legal/terms/
+servers:
+- url: https://chat.stream-io-api.com
+  description: Stream Chat API (edge, global)
+security:
+- JWT: []
+  ApiKey: []
+tags:
+- name: Application
+  description: Application-level utilities such as rate limits and search.
+paths:
+  /search:
+    get:
+      operationId: Search
+      tags:
+      - Application
+      summary: Search messages
+      description: Full-text search of messages across an application's channels.
+      parameters:
+      - name: payload
+        in: query
+        description: URL-encoded JSON search request (filter_conditions, query, sort, limit).
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+  /rate_limits:
+    get:
+      operationId: GetRateLimits
+      tags:
+      - Application
+      summary: Get rate limits
+      description: Return the rate limit quotas and current usage for the application, optionally filtered by platform and endpoint.
+      parameters:
+      - name: server_side
+        in: query
+        schema:
+          type: boolean
+      - name: android
+        in: query
+        schema:
+          type: boolean
+      - name: ios
+        in: query
+        schema:
+          type: boolean
+      - name: web
+        in: query
+        schema:
+          type: boolean
+      - name: endpoints
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Rate limit quotas per platform and endpoint.
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'A Stream JWT sent in the `Authorization` header. Server-side tokens omit the `user_id` claim; a `Stream-Auth-Type: jwt` header must accompany the request.'
+    ApiKey:
+      type: apiKey
+      in: query
+      name: api_key
+      description: The application API key, sent as the `api_key` query parameter on every request.

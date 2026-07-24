@@ -1,0 +1,143 @@
+openapi: 3.0.3
+info:
+  title: Stream Chat API (Server-side REST) Application Campaigns API
+  description: 'Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream''s published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.
+
+    Path and method choices here are taken from Stream''s official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.'
+  version: '1.0'
+  contact:
+    name: API Evangelist
+    url: https://apievangelist.com
+    email: kin@apievangelist.com
+  license:
+    name: API documentation - Stream Terms
+    url: https://getstream.io/legal/terms/
+servers:
+- url: https://chat.stream-io-api.com
+  description: Stream Chat API (edge, global)
+security:
+- JWT: []
+  ApiKey: []
+tags:
+- name: Campaigns
+  description: Create and control bulk messaging campaigns.
+paths:
+  /campaigns:
+    post:
+      operationId: CreateCampaign
+      tags:
+      - Campaigns
+      summary: Create a campaign
+      description: Create a bulk messaging campaign targeting a user segment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Campaign created.
+          content:
+            application/json:
+              schema:
+                type: object
+  /campaigns/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: GetCampaign
+      tags:
+      - Campaigns
+      summary: Get a campaign
+      responses:
+        '200':
+          description: A single campaign.
+          content:
+            application/json:
+              schema:
+                type: object
+    put:
+      operationId: UpdateCampaign
+      tags:
+      - Campaigns
+      summary: Update a campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Campaign updated.
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      operationId: DeleteCampaign
+      tags:
+      - Campaigns
+      summary: Delete a campaign
+      responses:
+        '200':
+          description: Campaign deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+  /campaigns/{id}/start:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      operationId: StartCampaign
+      tags:
+      - Campaigns
+      summary: Start a campaign
+      responses:
+        '200':
+          description: Campaign started.
+          content:
+            application/json:
+              schema:
+                type: object
+  /campaigns/{id}/stop:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      operationId: StopCampaign
+      tags:
+      - Campaigns
+      summary: Stop a campaign
+      responses:
+        '200':
+          description: Campaign stopped.
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'A Stream JWT sent in the `Authorization` header. Server-side tokens omit the `user_id` claim; a `Stream-Auth-Type: jwt` header must accompany the request.'
+    ApiKey:
+      type: apiKey
+      in: query
+      name: api_key
+      description: The application API key, sent as the `api_key` query parameter on every request.

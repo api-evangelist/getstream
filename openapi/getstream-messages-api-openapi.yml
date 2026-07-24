@@ -1,0 +1,290 @@
+openapi: 3.0.3
+info:
+  title: Stream Chat API (Server-side REST) Application Messages API
+  description: 'Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream''s published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.
+
+    Path and method choices here are taken from Stream''s official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.'
+  version: '1.0'
+  contact:
+    name: API Evangelist
+    url: https://apievangelist.com
+    email: kin@apievangelist.com
+  license:
+    name: API documentation - Stream Terms
+    url: https://getstream.io/legal/terms/
+servers:
+- url: https://chat.stream-io-api.com
+  description: Stream Chat API (edge, global)
+security:
+- JWT: []
+  ApiKey: []
+tags:
+- name: Messages
+  description: Send, retrieve, update, delete, and search messages and replies.
+paths:
+  /channels/{type}/{id}/message:
+    parameters:
+    - $ref: '#/components/parameters/ChannelType'
+    - $ref: '#/components/parameters/ChannelId'
+    post:
+      operationId: SendMessage
+      tags:
+      - Messages
+      summary: Send a message
+      description: Send a new message to a channel. Emits a `message.new` event over the WebSocket to watchers of the channel.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/Message'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /messages/{id}:
+    parameters:
+    - $ref: '#/components/parameters/MessageId'
+    get:
+      operationId: GetMessage
+      tags:
+      - Messages
+      summary: Get a message
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: UpdateMessage
+      tags:
+      - Messages
+      summary: Update a message (overwrite)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+    put:
+      operationId: UpdateMessagePartial
+      tags:
+      - Messages
+      summary: Partially update a message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                set:
+                  type: object
+                unset:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+    delete:
+      operationId: DeleteMessage
+      tags:
+      - Messages
+      summary: Delete a message
+      parameters:
+      - name: hard
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /messages/{parent_id}/replies:
+    parameters:
+    - name: parent_id
+      in: path
+      required: true
+      description: The id of the parent message whose thread replies to fetch.
+      schema:
+        type: string
+    get:
+      operationId: GetReplies
+      tags:
+      - Messages
+      summary: Get thread replies
+      description: Paginate the replies under a parent (thread) message.
+      responses:
+        '200':
+          description: A list of reply messages.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Message'
+components:
+  parameters:
+    ChannelId:
+      name: id
+      in: path
+      required: true
+      description: The channel id, unique within the channel type.
+      schema:
+        type: string
+    MessageId:
+      name: id
+      in: path
+      required: true
+      description: The unique id of the message.
+      schema:
+        type: string
+    ChannelType:
+      name: type
+      in: path
+      required: true
+      description: The channel type, e.g. messaging, livestream, team, gaming, commerce.
+      schema:
+        type: string
+  responses:
+    Message:
+      description: A message wrapped in a response envelope.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                $ref: '#/components/schemas/Message'
+              duration:
+                type: string
+    BadRequest:
+      description: The request was malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIError'
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIError'
+    TooManyRequests:
+      description: Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIError'
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+        name:
+          type: string
+        image:
+          type: string
+        online:
+          type: boolean
+        last_active:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+    SendMessageRequest:
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: object
+          properties:
+            text:
+              type: string
+            attachments:
+              type: array
+              items:
+                type: object
+            mentioned_users:
+              type: array
+              items:
+                type: string
+            parent_id:
+              type: string
+              description: If set, the message is a reply in the given thread.
+    APIError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        StatusCode:
+          type: integer
+        duration:
+          type: string
+        more_info:
+          type: string
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        type:
+          type: string
+          description: regular, ephemeral, error, reply, system, or deleted.
+        cid:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        parent_id:
+          type: string
+        reaction_counts:
+          type: object
+          additionalProperties:
+            type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'A Stream JWT sent in the `Authorization` header. Server-side tokens omit the `user_id` claim; a `Stream-Auth-Type: jwt` header must accompany the request.'
+    ApiKey:
+      type: apiKey
+      in: query
+      name: api_key
+      description: The application API key, sent as the `api_key` query parameter on every request.

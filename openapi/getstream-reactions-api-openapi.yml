@@ -1,0 +1,180 @@
+openapi: 3.0.3
+info:
+  title: Stream Chat API (Server-side REST) Application Reactions API
+  description: 'Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream''s published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.
+
+    Path and method choices here are taken from Stream''s official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.'
+  version: '1.0'
+  contact:
+    name: API Evangelist
+    url: https://apievangelist.com
+    email: kin@apievangelist.com
+  license:
+    name: API documentation - Stream Terms
+    url: https://getstream.io/legal/terms/
+servers:
+- url: https://chat.stream-io-api.com
+  description: Stream Chat API (edge, global)
+security:
+- JWT: []
+  ApiKey: []
+tags:
+- name: Reactions
+  description: Add and remove emoji reactions on messages.
+paths:
+  /messages/{id}/reaction:
+    parameters:
+    - $ref: '#/components/parameters/MessageId'
+    post:
+      operationId: SendReaction
+      tags:
+      - Reactions
+      summary: Send a reaction
+      description: Add an emoji reaction to a message, emitting a `reaction.new` event.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reaction:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: like
+                    score:
+                      type: integer
+      responses:
+        '201':
+          $ref: '#/components/responses/Message'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /messages/{id}/reaction/{type}:
+    parameters:
+    - $ref: '#/components/parameters/MessageId'
+    - name: type
+      in: path
+      required: true
+      description: The reaction type to remove (e.g. like).
+      schema:
+        type: string
+    delete:
+      operationId: DeleteReaction
+      tags:
+      - Reactions
+      summary: Delete a reaction
+      description: Remove a user's reaction of a given type from a message.
+      responses:
+        '200':
+          $ref: '#/components/responses/Message'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    Message:
+      description: A message wrapped in a response envelope.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                $ref: '#/components/schemas/Message'
+              duration:
+                type: string
+    TooManyRequests:
+      description: Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIError'
+  parameters:
+    MessageId:
+      name: id
+      in: path
+      required: true
+      description: The unique id of the message.
+      schema:
+        type: string
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+        name:
+          type: string
+        image:
+          type: string
+        online:
+          type: boolean
+        last_active:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+    APIError:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        StatusCode:
+          type: integer
+        duration:
+          type: string
+        more_info:
+          type: string
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        type:
+          type: string
+          description: regular, ephemeral, error, reply, system, or deleted.
+        cid:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        parent_id:
+          type: string
+        reaction_counts:
+          type: object
+          additionalProperties:
+            type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'A Stream JWT sent in the `Authorization` header. Server-side tokens omit the `user_id` claim; a `Stream-Auth-Type: jwt` header must accompany the request.'
+    ApiKey:
+      type: apiKey
+      in: query
+      name: api_key
+      description: The application API key, sent as the `api_key` query parameter on every request.

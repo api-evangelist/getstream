@@ -1,0 +1,119 @@
+openapi: 3.0.3
+info:
+  title: Stream Chat API (Server-side REST) Application Devices API
+  description: 'Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream''s published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.
+
+    Path and method choices here are taken from Stream''s official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.'
+  version: '1.0'
+  contact:
+    name: API Evangelist
+    url: https://apievangelist.com
+    email: kin@apievangelist.com
+  license:
+    name: API documentation - Stream Terms
+    url: https://getstream.io/legal/terms/
+servers:
+- url: https://chat.stream-io-api.com
+  description: Stream Chat API (edge, global)
+security:
+- JWT: []
+  ApiKey: []
+tags:
+- name: Devices
+  description: Register and manage push notification devices.
+paths:
+  /devices:
+    get:
+      operationId: ListDevices
+      tags:
+      - Devices
+      summary: List devices
+      description: List the push devices registered for a user.
+      parameters:
+      - name: user_id
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of devices.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  devices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Device'
+    post:
+      operationId: CreateDevice
+      tags:
+      - Devices
+      summary: Register a device
+      description: Register a push device (APNs or Firebase) for a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+      responses:
+        '201':
+          description: Device registered.
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      operationId: DeleteDevice
+      tags:
+      - Devices
+      summary: Remove a device
+      parameters:
+      - name: id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Device removed.
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The device (push) token.
+        push_provider:
+          type: string
+          enum:
+          - apn
+          - firebase
+          - xiaomi
+          - huawei
+        push_provider_name:
+          type: string
+        user_id:
+          type: string
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'A Stream JWT sent in the `Authorization` header. Server-side tokens omit the `user_id` claim; a `Stream-Auth-Type: jwt` header must accompany the request.'
+    ApiKey:
+      type: apiKey
+      in: query
+      name: api_key
+      description: The application API key, sent as the `api_key` query parameter on every request.
