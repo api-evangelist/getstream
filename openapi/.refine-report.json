@@ -1,0 +1,36 @@
+{
+  "provider": "getstream",
+  "sources": [
+    "getstream-application-api-openapi.yml",
+    "getstream-campaigns-api-openapi.yml",
+    "getstream-channels-api-openapi.yml",
+    "getstream-devices-api-openapi.yml",
+    "getstream-members-api-openapi.yml",
+    "getstream-messages-api-openapi.yml",
+    "getstream-moderation-api-openapi.yml",
+    "getstream-permissions-api-openapi.yml",
+    "getstream-reactions-api-openapi.yml",
+    "getstream-roles-api-openapi.yml",
+    "getstream-threads-api-openapi.yml",
+    "getstream-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "getstream-application-api-openapi.yml",
+    "getstream-campaigns-api-openapi.yml",
+    "getstream-channels-api-openapi.yml",
+    "getstream-devices-api-openapi.yml",
+    "getstream-members-api-openapi.yml",
+    "getstream-messages-api-openapi.yml",
+    "getstream-moderation-api-openapi.yml",
+    "getstream-permissions-api-openapi.yml",
+    "getstream-reactions-api-openapi.yml",
+    "getstream-roles-api-openapi.yml",
+    "getstream-threads-api-openapi.yml",
+    "getstream-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
