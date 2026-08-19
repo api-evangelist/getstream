@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stream Chat API (Server-side REST) Application Devices API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Devices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.stream-io-api.com/devices",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List the push devices registered for a user."
+        },
+        {
+          "info": {
+            "name": "Register a device",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/devices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a push device (APNs or Firebase) for a user."
+        },
+        {
+          "info": {
+            "name": "Remove a device",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://chat.stream-io-api.com/devices",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Remove a device"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

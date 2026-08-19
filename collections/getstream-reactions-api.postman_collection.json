@@ -1,0 +1,432 @@
+{
+  "item": [
+    {
+      "id": "598b82cf-f365-40f3-b91d-dcf1c4756955",
+      "name": "Reactions",
+      "description": {
+        "content": "Add and remove emoji reactions on messages.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "964f2d44-b20c-4113-a820-967e2a91fb6f",
+          "name": "Send a reaction",
+          "request": {
+            "name": "Send a reaction",
+            "description": {
+              "content": "Add an emoji reaction to a message, emitting a `reaction.new` event.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                ":id",
+                "reaction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The unique id of the message."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reaction\": {\n    \"type\": \"<string>\",\n    \"score\": \"<integer>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d3bef99-d976-4781-9263-2c6114d97541",
+              "name": "A message wrapped in a response envelope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id",
+                    "reaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reaction\": {\n    \"type\": \"like\",\n    \"score\": \"<integer>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": {\n    \"id\": \"string\",\n    \"text\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"user\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": true,\n      \"last_active\": \"2025-11-08T22:42:53.655Z\",\n      \"created_at\": \"1972-07-21T17:07:04.976Z\"\n    },\n    \"parent_id\": \"string\",\n    \"reaction_counts\": {\n      \"key_0\": 6668,\n      \"key_1\": 2016,\n      \"key_2\": 7926,\n      \"key_3\": 8632\n    },\n    \"created_at\": \"1991-11-03T11:55:26.689Z\",\n    \"updated_at\": \"1989-03-30T20:34:40.324Z\"\n  },\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2a978360-5028-4fa8-8ba3-7c4cdffd6e6e",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id",
+                    "reaction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reaction\": {\n    \"type\": \"like\",\n    \"score\": \"<integer>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "1408",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "1408",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "1408",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7929,\n  \"message\": \"string\",\n  \"StatusCode\": 7901,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2f945c30-6885-4f79-8d43-967552bb850a",
+          "name": "Delete a reaction",
+          "request": {
+            "name": "Delete a reaction",
+            "description": {
+              "content": "Remove a user's reaction of a given type from a message.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                ":id",
+                "reaction",
+                ":type"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The unique id of the message."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The reaction type to remove (e.g. like)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2cde6e13-92ca-472a-a661-1cb56e364027",
+              "name": "A message wrapped in a response envelope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id",
+                    "reaction",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The reaction type to remove (e.g. like)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": {\n    \"id\": \"string\",\n    \"text\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"user\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": true,\n      \"last_active\": \"2025-11-08T22:42:53.655Z\",\n      \"created_at\": \"1972-07-21T17:07:04.976Z\"\n    },\n    \"parent_id\": \"string\",\n    \"reaction_counts\": {\n      \"key_0\": 6668,\n      \"key_1\": 2016,\n      \"key_2\": 7926,\n      \"key_3\": 8632\n    },\n    \"created_at\": \"1991-11-03T11:55:26.689Z\",\n    \"updated_at\": \"1989-03-30T20:34:40.324Z\"\n  },\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ef3e6308-732d-4270-80f7-44c6fddd761b",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id",
+                    "reaction",
+                    ":type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The reaction type to remove (e.g. like)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "1408",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "1408",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "1408",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7929,\n  \"message\": \"string\",\n  \"StatusCode\": 7901,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.stream-io-api.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f79d46dc-d6d8-493d-bf7d-af282f1c56ed",
+    "name": "Stream Chat API (Server-side REST) Application Reactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream's published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.\nPath and method choices here are taken from Stream's official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.\n\nContact Support:\n Name: API Evangelist\n Email: kin@apievangelist.com",
+      "type": "text/plain"
+    }
+  }
+}

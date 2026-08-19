@@ -1,0 +1,982 @@
+{
+  "item": [
+    {
+      "id": "0f3fe8ca-0f1e-4a7a-a393-920f15d84210",
+      "name": "Messages",
+      "description": {
+        "content": "Send, retrieve, update, delete, and search messages and replies.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "769b051c-0a79-4cf0-8a88-099d9125f48f",
+          "name": "Send a message",
+          "request": {
+            "name": "Send a message",
+            "description": {
+              "content": "Send a new message to a channel. Emits a `message.new` event over the WebSocket to watchers of the channel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "channels",
+                ":type",
+                ":id",
+                "message"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The channel id, unique within the channel type."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": {\n    \"text\": \"<string>\",\n    \"attachments\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"mentioned_users\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"parent_id\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "984e4329-7894-42db-9785-82049b607b16",
+              "name": "A message wrapped in a response envelope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id",
+                    "message"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"message\": {\n    \"text\": \"<string>\",\n    \"attachments\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"mentioned_users\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"parent_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": {\n    \"id\": \"string\",\n    \"text\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"user\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": true,\n      \"last_active\": \"1983-02-14T11:00:16.106Z\",\n      \"created_at\": \"2015-08-24T22:14:26.325Z\"\n    },\n    \"parent_id\": \"string\",\n    \"reaction_counts\": {\n      \"key_0\": 8926,\n      \"key_1\": 2201,\n      \"key_2\": 386\n    },\n    \"created_at\": \"1968-07-26T05:04:47.873Z\",\n    \"updated_at\": \"2018-10-05T11:01:00.648Z\"\n  },\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20e34c5e-ea70-4c84-85a1-945d0bd46d34",
+              "name": "The request was malformed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id",
+                    "message"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"message\": {\n    \"text\": \"<string>\",\n    \"attachments\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"mentioned_users\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"parent_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6202,\n  \"message\": \"string\",\n  \"StatusCode\": 8584,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a73f1cb-7fb5-40ef-8046-5056bef38ddf",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id",
+                    "message"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"message\": {\n    \"text\": \"<string>\",\n    \"attachments\": [\n      \"<object>\",\n      \"<object>\"\n    ],\n    \"mentioned_users\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"parent_id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "1862",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "1862",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "1862",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6202,\n  \"message\": \"string\",\n  \"StatusCode\": 8584,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fdf4e72d-1899-4387-bf07-d1b568a510c0",
+          "name": "Get a message",
+          "request": {
+            "name": "Get a message",
+            "description": {},
+            "url": {
+              "path": [
+                "messages",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The unique id of the message."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c5769f1-862f-4821-8cfa-1d31dea31fef",
+              "name": "A message wrapped in a response envelope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": {\n    \"id\": \"string\",\n    \"text\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"user\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": true,\n      \"last_active\": \"1983-02-14T11:00:16.106Z\",\n      \"created_at\": \"2015-08-24T22:14:26.325Z\"\n    },\n    \"parent_id\": \"string\",\n    \"reaction_counts\": {\n      \"key_0\": 8926,\n      \"key_1\": 2201,\n      \"key_2\": 386\n    },\n    \"created_at\": \"1968-07-26T05:04:47.873Z\",\n    \"updated_at\": \"2018-10-05T11:01:00.648Z\"\n  },\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3eb7b4a-73c7-4dae-995b-ca06e4272819",
+              "name": "The requested resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6202,\n  \"message\": \"string\",\n  \"StatusCode\": 8584,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c4f15bb0-e1fb-4445-ae6c-ea45fdca3d48",
+          "name": "Update a message (overwrite)",
+          "request": {
+            "name": "Update a message (overwrite)",
+            "description": {},
+            "url": {
+              "path": [
+                "messages",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The unique id of the message."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b00ddb9b-76d5-4dd9-85a7-10fccfa2db35",
+              "name": "A message wrapped in a response envelope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": {\n    \"id\": \"string\",\n    \"text\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"user\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": true,\n      \"last_active\": \"1983-02-14T11:00:16.106Z\",\n      \"created_at\": \"2015-08-24T22:14:26.325Z\"\n    },\n    \"parent_id\": \"string\",\n    \"reaction_counts\": {\n      \"key_0\": 8926,\n      \"key_1\": 2201,\n      \"key_2\": 386\n    },\n    \"created_at\": \"1968-07-26T05:04:47.873Z\",\n    \"updated_at\": \"2018-10-05T11:01:00.648Z\"\n  },\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c7d762e8-5a11-4ee5-936b-d62434fc00e1",
+          "name": "Partially update a message",
+          "request": {
+            "name": "Partially update a message",
+            "description": {},
+            "url": {
+              "path": [
+                "messages",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The unique id of the message."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"set\": \"<object>\",\n  \"unset\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "44719289-ae84-4c63-8f6f-d1f82fdf733c",
+              "name": "A message wrapped in a response envelope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"set\": \"<object>\",\n  \"unset\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": {\n    \"id\": \"string\",\n    \"text\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"user\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": true,\n      \"last_active\": \"1983-02-14T11:00:16.106Z\",\n      \"created_at\": \"2015-08-24T22:14:26.325Z\"\n    },\n    \"parent_id\": \"string\",\n    \"reaction_counts\": {\n      \"key_0\": 8926,\n      \"key_1\": 2201,\n      \"key_2\": 386\n    },\n    \"created_at\": \"1968-07-26T05:04:47.873Z\",\n    \"updated_at\": \"2018-10-05T11:01:00.648Z\"\n  },\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4b4884b8-69e7-4de1-9387-561c2b40e2c8",
+          "name": "Delete a message",
+          "request": {
+            "name": "Delete a message",
+            "description": {},
+            "url": {
+              "path": [
+                "messages",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "hard",
+                  "value": "<boolean>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The unique id of the message."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "84965873-fe48-46b3-8bf5-fb63d71e5d5c",
+              "name": "A message wrapped in a response envelope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "hard",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": {\n    \"id\": \"string\",\n    \"text\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"user\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": true,\n      \"last_active\": \"1983-02-14T11:00:16.106Z\",\n      \"created_at\": \"2015-08-24T22:14:26.325Z\"\n    },\n    \"parent_id\": \"string\",\n    \"reaction_counts\": {\n      \"key_0\": 8926,\n      \"key_1\": 2201,\n      \"key_2\": 386\n    },\n    \"created_at\": \"1968-07-26T05:04:47.873Z\",\n    \"updated_at\": \"2018-10-05T11:01:00.648Z\"\n  },\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7ca06ee-1360-4f7e-b3d8-3c4ca89897b3",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "hard",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique id of the message."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "1862",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "1862",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "1862",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 6202,\n  \"message\": \"string\",\n  \"StatusCode\": 8584,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4e438034-8852-4b68-acbe-f96179ec980e",
+          "name": "Get thread replies",
+          "request": {
+            "name": "Get thread replies",
+            "description": {
+              "content": "Paginate the replies under a parent (thread) message.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "messages",
+                ":parent_id",
+                "replies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "parent_id",
+                  "description": "(Required) The id of the parent message whose thread replies to fetch."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b720bb90-69c9-414f-9a3f-5c679183b21d",
+              "name": "A list of reply messages.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "messages",
+                    ":parent_id",
+                    "replies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "parent_id",
+                      "description": "(Required) The id of the parent message whose thread replies to fetch."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"messages\": [\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": true,\n        \"last_active\": \"1962-03-02T06:39:50.362Z\",\n        \"created_at\": \"1956-10-11T11:28:46.193Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 969,\n        \"key_1\": 5770\n      },\n      \"created_at\": \"1989-01-12T13:28:00.134Z\",\n      \"updated_at\": \"1971-02-03T03:35:42.309Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": true,\n        \"last_active\": \"1980-10-17T03:01:41.776Z\",\n        \"created_at\": \"2008-01-28T01:16:20.898Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 9845,\n        \"key_1\": 1783,\n        \"key_2\": 7490\n      },\n      \"created_at\": \"1950-04-17T16:04:24.067Z\",\n      \"updated_at\": \"1968-11-09T10:22:10.888Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.stream-io-api.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "aaecc4cd-ec78-4beb-9d96-70a8baf8e5ff",
+    "name": "Stream Chat API (Server-side REST) Application Messages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream's published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.\nPath and method choices here are taken from Stream's official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.\n\nContact Support:\n Name: API Evangelist\n Email: kin@apievangelist.com",
+      "type": "text/plain"
+    }
+  }
+}

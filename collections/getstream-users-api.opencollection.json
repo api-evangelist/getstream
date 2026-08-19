@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stream Chat API (Server-side REST) Application Users API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.stream-io-api.com/users",
+            "params": [
+              {
+                "name": "payload",
+                "value": "",
+                "type": "query",
+                "description": "URL-encoded JSON query (filter_conditions, sort, limit, offset)."
+              }
+            ]
+          },
+          "docs": "Query users with filtering, sorting, and pagination."
+        },
+        {
+          "info": {
+            "name": "Upsert users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a batch of users by id."
+        },
+        {
+          "info": {
+            "name": "Partially update users",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://chat.stream-io-api.com/users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partially update users"
+        },
+        {
+          "info": {
+            "name": "Deactivate a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/users/:user_id/deactivate",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deactivate a user, preventing them from connecting or sending messages."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

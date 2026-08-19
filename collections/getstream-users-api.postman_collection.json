@@ -1,0 +1,493 @@
+{
+  "item": [
+    {
+      "id": "6bdd6177-85b9-409a-8682-61fd38370d27",
+      "name": "Users",
+      "description": {
+        "content": "Upsert, query, update, deactivate, and reactivate users.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "94c40e69-72b9-4c6f-af96-5c9732153169",
+          "name": "Query users",
+          "request": {
+            "name": "Query users",
+            "description": {
+              "content": "Query users with filtering, sorting, and pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "payload",
+                  "value": "<string>",
+                  "description": "URL-encoded JSON query (filter_conditions, sort, limit, offset)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3166b0bb-7be2-48ec-95f9-0e70d76298b2",
+              "name": "A list of users.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "payload",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"users\": [\n    {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": false,\n      \"last_active\": \"1964-05-15T09:23:19.883Z\",\n      \"created_at\": \"1957-10-28T13:39:07.187Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": true,\n      \"last_active\": \"2004-08-03T09:46:08.324Z\",\n      \"created_at\": \"2020-03-10T05:51:07.394Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "78ba9e10-fcec-458f-897e-6e3194828e84",
+          "name": "Upsert users",
+          "request": {
+            "name": "Upsert users",
+            "description": {
+              "content": "Create or update a batch of users by id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"users\": {\n    \"key_0\": {\n      \"id\": \"<string>\",\n      \"role\": \"<string>\",\n      \"name\": \"<string>\",\n      \"image\": \"<string>\",\n      \"online\": \"<boolean>\",\n      \"last_active\": \"<dateTime>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    \"key_1\": {\n      \"id\": \"<string>\",\n      \"role\": \"<string>\",\n      \"name\": \"<string>\",\n      \"image\": \"<string>\",\n      \"online\": \"<boolean>\",\n      \"last_active\": \"<dateTime>\",\n      \"created_at\": \"<dateTime>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f63dd2f1-37b2-4c63-95a4-dbdb14d84c82",
+              "name": "The upserted users keyed by id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"users\": {\n    \"key_0\": {\n      \"id\": \"<string>\",\n      \"role\": \"<string>\",\n      \"name\": \"<string>\",\n      \"image\": \"<string>\",\n      \"online\": \"<boolean>\",\n      \"last_active\": \"<dateTime>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    \"key_1\": {\n      \"id\": \"<string>\",\n      \"role\": \"<string>\",\n      \"name\": \"<string>\",\n      \"image\": \"<string>\",\n      \"online\": \"<boolean>\",\n      \"last_active\": \"<dateTime>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    \"key_2\": {\n      \"id\": \"<string>\",\n      \"role\": \"<string>\",\n      \"name\": \"<string>\",\n      \"image\": \"<string>\",\n      \"online\": \"<boolean>\",\n      \"last_active\": \"<dateTime>\",\n      \"created_at\": \"<dateTime>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c52f3317-417b-46ad-a732-a0c8c9be34a2",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"users\": {\n    \"key_0\": {\n      \"id\": \"<string>\",\n      \"role\": \"<string>\",\n      \"name\": \"<string>\",\n      \"image\": \"<string>\",\n      \"online\": \"<boolean>\",\n      \"last_active\": \"<dateTime>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    \"key_1\": {\n      \"id\": \"<string>\",\n      \"role\": \"<string>\",\n      \"name\": \"<string>\",\n      \"image\": \"<string>\",\n      \"online\": \"<boolean>\",\n      \"last_active\": \"<dateTime>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    \"key_2\": {\n      \"id\": \"<string>\",\n      \"role\": \"<string>\",\n      \"name\": \"<string>\",\n      \"image\": \"<string>\",\n      \"online\": \"<boolean>\",\n      \"last_active\": \"<dateTime>\",\n      \"created_at\": \"<dateTime>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "8642",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "8642",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "8642",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 4740,\n  \"message\": \"string\",\n  \"StatusCode\": 995,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "31e94dfd-1b8b-4ebd-9209-4838a9bbf924",
+          "name": "Partially update users",
+          "request": {
+            "name": "Partially update users",
+            "description": {},
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"users\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b49ccb06-46a2-4b92-a05f-e57f0b23e7d0",
+              "name": "The updated users.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"users\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "efa2f374-5567-4490-a532-94d614e81e63",
+          "name": "Deactivate a user",
+          "request": {
+            "name": "Deactivate a user",
+            "description": {
+              "content": "Deactivate a user, preventing them from connecting or sending messages.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":user_id",
+                "deactivate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "user_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b241776b-0d34-4ee0-92b6-86a6bf45e323",
+              "name": "The deactivated user.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":user_id",
+                    "deactivate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "user_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.stream-io-api.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "99ef499f-d909-4735-91cb-9358ca14d903",
+    "name": "Stream Chat API (Server-side REST) Application Users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream's published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.\nPath and method choices here are taken from Stream's official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.\n\nContact Support:\n Name: API Evangelist\n Email: kin@apievangelist.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stream Chat API (Server-side REST) Application Reactions API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send a reaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/messages/:id/reaction",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique id of the message."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add an emoji reaction to a message, emitting a `reaction.new` event."
+        },
+        {
+          "info": {
+            "name": "Delete a reaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://chat.stream-io-api.com/messages/:id/reaction/:type",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique id of the message."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The reaction type to remove (e.g. like)."
+              }
+            ]
+          },
+          "docs": "Remove a user's reaction of a given type from a message."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

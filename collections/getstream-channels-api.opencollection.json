@@ -1,0 +1,210 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stream Chat API (Server-side REST) Application Channels API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Channels",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query channels",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/channels",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Query the channels a user has access to, using a filter, sort, and pagination. Returns channel state including members, messages, reads, and channel configuration."
+        },
+        {
+          "info": {
+            "name": "Update a channel (overwrite)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/channels/:type/:id",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The channel type, e.g. messaging, livestream, team, gaming, commerce."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The channel id, unique within the channel type."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Overwrite a channel's custom data and, optionally, its member set."
+        },
+        {
+          "info": {
+            "name": "Partially update a channel",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://chat.stream-io-api.com/channels/:type/:id",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The channel type, e.g. messaging, livestream, team, gaming, commerce."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The channel id, unique within the channel type."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set or unset individual fields of a channel's custom data."
+        },
+        {
+          "info": {
+            "name": "Delete a channel",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://chat.stream-io-api.com/channels/:type/:id",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The channel type, e.g. messaging, livestream, team, gaming, commerce."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The channel id, unique within the channel type."
+              },
+              {
+                "name": "hard_delete",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Delete a channel and all of its messages (soft or hard delete)."
+        },
+        {
+          "info": {
+            "name": "Get or create a channel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/channels/:type/:id/query",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The channel type, e.g. messaging, livestream, team, gaming, commerce."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The channel id, unique within the channel type."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fetch a channel's full state, creating it if it does not yet exist, and optionally start watching it. This is the primary way to load a channel."
+        },
+        {
+          "info": {
+            "name": "Truncate a channel",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/channels/:type/:id/truncate",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The channel type, e.g. messaging, livestream, team, gaming, commerce."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The channel id, unique within the channel type."
+              }
+            ]
+          },
+          "docs": "Remove all messages from a channel while keeping the channel itself."
+        },
+        {
+          "info": {
+            "name": "Mark a channel read",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/channels/:type/:id/read",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The channel type, e.g. messaging, livestream, team, gaming, commerce."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The channel id, unique within the channel type."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Mark messages in a channel as read for a user, updating unread counts and emitting a `message.read` event."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

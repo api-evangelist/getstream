@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stream Chat API (Server-side REST) Application Members API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Partially update a channel member",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://chat.stream-io-api.com/channels/:type/:id/member",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The channel type, e.g. messaging, livestream, team, gaming, commerce."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The channel id, unique within the channel type."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set or unset channel-scoped attributes for a member, such as notifications muted, pinned, or archived state."
+        },
+        {
+          "info": {
+            "name": "Query members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.stream-io-api.com/members",
+            "params": [
+              {
+                "name": "payload",
+                "value": "",
+                "type": "query",
+                "description": "URL-encoded JSON query (filter_conditions, sort, limit, offset)."
+              }
+            ]
+          },
+          "docs": "Query channel members across the application with filtering and sorting."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,161 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stream Chat API (Server-side REST) Application Messages API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send a message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/channels/:type/:id/message",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The channel type, e.g. messaging, livestream, team, gaming, commerce."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The channel id, unique within the channel type."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a new message to a channel. Emits a `message.new` event over the WebSocket to watchers of the channel."
+        },
+        {
+          "info": {
+            "name": "Get a message",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.stream-io-api.com/messages/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique id of the message."
+              }
+            ]
+          },
+          "docs": "Get a message"
+        },
+        {
+          "info": {
+            "name": "Update a message (overwrite)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://chat.stream-io-api.com/messages/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique id of the message."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a message (overwrite)"
+        },
+        {
+          "info": {
+            "name": "Partially update a message",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://chat.stream-io-api.com/messages/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique id of the message."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partially update a message"
+        },
+        {
+          "info": {
+            "name": "Delete a message",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://chat.stream-io-api.com/messages/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique id of the message."
+              },
+              {
+                "name": "hard",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Delete a message"
+        },
+        {
+          "info": {
+            "name": "Get thread replies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.stream-io-api.com/messages/:parent_id/replies",
+            "params": [
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the parent message whose thread replies to fetch."
+              }
+            ]
+          },
+          "docs": "Paginate the replies under a parent (thread) message."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

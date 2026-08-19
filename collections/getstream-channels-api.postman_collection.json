@@ -1,0 +1,1609 @@
+{
+  "item": [
+    {
+      "id": "80d491b7-aae6-4a49-a235-624b66272a26",
+      "name": "Channels",
+      "description": {
+        "content": "Query, create, update, truncate, and delete chat channels.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e8033cca-fb71-4ddc-921e-6d3a14b76755",
+          "name": "Query channels",
+          "request": {
+            "name": "Query channels",
+            "description": {
+              "content": "Query the channels a user has access to, using a filter, sort, and pagination. Returns channel state including members, messages, reads, and channel configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "channels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter_conditions\": \"<object>\",\n  \"sort\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"limit\": \"<integer>\",\n  \"offset\": \"<integer>\",\n  \"watch\": \"<boolean>\",\n  \"state\": \"<boolean>\",\n  \"presence\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7b043dbd-6008-4356-99fb-419608917bea",
+              "name": "A list of channels with their state.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filter_conditions\": \"<object>\",\n  \"sort\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"limit\": \"<integer>\",\n  \"offset\": \"<integer>\",\n  \"watch\": \"<boolean>\",\n  \"state\": \"<boolean>\",\n  \"presence\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"channels\": [\n    {\n      \"channel\": {\n        \"id\": \"string\",\n        \"type\": \"string\",\n        \"cid\": \"string\",\n        \"member_count\": 4563,\n        \"created_by\": {\n          \"id\": \"string\",\n          \"role\": \"string\",\n          \"name\": \"string\",\n          \"image\": \"string\",\n          \"online\": false,\n          \"last_active\": \"1986-03-30T09:30:25.344Z\",\n          \"created_at\": \"2001-07-06T11:41:57.605Z\"\n        },\n        \"created_at\": \"1991-07-31T04:41:07.046Z\",\n        \"updated_at\": \"1967-05-13T22:18:48.119Z\"\n      },\n      \"messages\": [\n        {\n          \"id\": \"string\",\n          \"text\": \"string\",\n          \"type\": \"string\",\n          \"cid\": \"string\",\n          \"user\": {\n            \"id\": \"string\",\n            \"role\": \"string\",\n            \"name\": \"string\",\n            \"image\": \"string\",\n            \"online\": true,\n            \"last_active\": \"1948-09-21T10:10:55.353Z\",\n            \"created_at\": \"1968-04-14T00:49:41.295Z\"\n          },\n          \"parent_id\": \"string\",\n          \"reaction_counts\": {\n            \"key_0\": 2221,\n            \"key_1\": 4004\n          },\n          \"created_at\": \"1958-03-16T20:25:35.520Z\",\n          \"updated_at\": \"1962-03-21T18:29:00.335Z\"\n        },\n        {\n          \"id\": \"string\",\n          \"text\": \"string\",\n          \"type\": \"string\",\n          \"cid\": \"string\",\n          \"user\": {\n            \"id\": \"string\",\n            \"role\": \"string\",\n            \"name\": \"string\",\n            \"image\": \"string\",\n            \"online\": true,\n            \"last_active\": \"1969-09-08T06:09:10.703Z\",\n            \"created_at\": \"1999-07-15T20:09:06.612Z\"\n          },\n          \"parent_id\": \"string\",\n          \"reaction_counts\": {\n            \"key_0\": 6312\n          },\n          \"created_at\": \"1995-04-13T09:53:54.734Z\",\n          \"updated_at\": \"2016-05-06T15:16:30.839Z\"\n        }\n      ],\n      \"duration\": \"string\"\n    },\n    {\n      \"channel\": {\n        \"id\": \"string\",\n        \"type\": \"string\",\n        \"cid\": \"string\",\n        \"member_count\": 4763,\n        \"created_by\": {\n          \"id\": \"string\",\n          \"role\": \"string\",\n          \"name\": \"string\",\n          \"image\": \"string\",\n          \"online\": true,\n          \"last_active\": \"1980-10-17T03:02:49.374Z\",\n          \"created_at\": \"1991-08-25T10:12:30.213Z\"\n        },\n        \"created_at\": \"1946-11-11T16:27:12.664Z\",\n        \"updated_at\": \"1966-09-18T02:21:17.626Z\"\n      },\n      \"messages\": [\n        {\n          \"id\": \"string\",\n          \"text\": \"string\",\n          \"type\": \"string\",\n          \"cid\": \"string\",\n          \"user\": {\n            \"id\": \"string\",\n            \"role\": \"string\",\n            \"name\": \"string\",\n            \"image\": \"string\",\n            \"online\": true,\n            \"last_active\": \"1965-05-19T02:49:22.906Z\",\n            \"created_at\": \"1983-11-16T22:22:21.913Z\"\n          },\n          \"parent_id\": \"string\",\n          \"reaction_counts\": {\n            \"key_0\": 4459\n          },\n          \"created_at\": \"1956-04-10T13:51:40.756Z\",\n          \"updated_at\": \"1947-06-15T23:29:45.621Z\"\n        },\n        {\n          \"id\": \"string\",\n          \"text\": \"string\",\n          \"type\": \"string\",\n          \"cid\": \"string\",\n          \"user\": {\n            \"id\": \"string\",\n            \"role\": \"string\",\n            \"name\": \"string\",\n            \"image\": \"string\",\n            \"online\": false,\n            \"last_active\": \"2012-06-07T11:15:18.330Z\",\n            \"created_at\": \"1992-12-05T14:24:31.142Z\"\n          },\n          \"parent_id\": \"string\",\n          \"reaction_counts\": {\n            \"key_0\": 6115\n          },\n          \"created_at\": \"2022-02-06T07:26:54.847Z\",\n          \"updated_at\": \"2024-05-23T17:28:53.999Z\"\n        }\n      ],\n      \"duration\": \"string\"\n    }\n  ],\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b8b2c723-1365-44f1-a439-8f4d02a7b3a3",
+              "name": "Missing or invalid authentication.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filter_conditions\": \"<object>\",\n  \"sort\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"limit\": \"<integer>\",\n  \"offset\": \"<integer>\",\n  \"watch\": \"<boolean>\",\n  \"state\": \"<boolean>\",\n  \"presence\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5832,\n  \"message\": \"string\",\n  \"StatusCode\": 9120,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5cf04768-76b8-415e-8a10-f4d1539a985e",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filter_conditions\": \"<object>\",\n  \"sort\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"limit\": \"<integer>\",\n  \"offset\": \"<integer>\",\n  \"watch\": \"<boolean>\",\n  \"state\": \"<boolean>\",\n  \"presence\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5832,\n  \"message\": \"string\",\n  \"StatusCode\": 9120,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf7c783c-9ba5-42bc-b159-8f0a2ed2941a",
+          "name": "Update a channel (overwrite)",
+          "request": {
+            "name": "Update a channel (overwrite)",
+            "description": {
+              "content": "Overwrite a channel's custom data and, optionally, its member set.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "channels",
+                ":type",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The channel id, unique within the channel type."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cd4fdd44-ae22-4d5f-b872-4e83a59dd296",
+              "name": "A channel and its state.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"channel\": {\n    \"id\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"member_count\": 207,\n    \"created_by\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": false,\n      \"last_active\": \"1968-09-24T19:25:54.476Z\",\n      \"created_at\": \"1992-12-11T16:50:09.725Z\"\n    },\n    \"created_at\": \"2022-01-19T04:58:41.519Z\",\n    \"updated_at\": \"2009-06-06T01:24:09.855Z\"\n  },\n  \"messages\": [\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1950-11-04T15:41:32.231Z\",\n        \"created_at\": \"1947-01-20T06:12:40.301Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 851,\n        \"key_1\": 4085,\n        \"key_2\": 5796\n      },\n      \"created_at\": \"2010-10-09T15:45:27.946Z\",\n      \"updated_at\": \"1961-01-13T00:09:57.419Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1966-09-05T09:24:29.793Z\",\n        \"created_at\": \"2008-02-06T06:02:15.302Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 4493,\n        \"key_1\": 1892\n      },\n      \"created_at\": \"2003-09-08T23:44:01.302Z\",\n      \"updated_at\": \"1979-11-06T11:15:05.801Z\"\n    }\n  ],\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1d61476-6923-4a2e-be6c-9df25fec7817",
+              "name": "Missing or invalid authentication.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5832,\n  \"message\": \"string\",\n  \"StatusCode\": 9120,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14d062f0-97cb-4180-88d5-1dc62b452a2b",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5832,\n  \"message\": \"string\",\n  \"StatusCode\": 9120,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "352b422f-7b8f-43de-96d5-8a2c1425a2c0",
+          "name": "Partially update a channel",
+          "request": {
+            "name": "Partially update a channel",
+            "description": {
+              "content": "Set or unset individual fields of a channel's custom data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "channels",
+                ":type",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The channel id, unique within the channel type."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"set\": \"<object>\",\n  \"unset\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fb15bf55-b433-458b-aa7d-91b4dd512eeb",
+              "name": "A channel and its state.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"set\": \"<object>\",\n  \"unset\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"channel\": {\n    \"id\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"member_count\": 207,\n    \"created_by\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": false,\n      \"last_active\": \"1968-09-24T19:25:54.476Z\",\n      \"created_at\": \"1992-12-11T16:50:09.725Z\"\n    },\n    \"created_at\": \"2022-01-19T04:58:41.519Z\",\n    \"updated_at\": \"2009-06-06T01:24:09.855Z\"\n  },\n  \"messages\": [\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1950-11-04T15:41:32.231Z\",\n        \"created_at\": \"1947-01-20T06:12:40.301Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 851,\n        \"key_1\": 4085,\n        \"key_2\": 5796\n      },\n      \"created_at\": \"2010-10-09T15:45:27.946Z\",\n      \"updated_at\": \"1961-01-13T00:09:57.419Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1966-09-05T09:24:29.793Z\",\n        \"created_at\": \"2008-02-06T06:02:15.302Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 4493,\n        \"key_1\": 1892\n      },\n      \"created_at\": \"2003-09-08T23:44:01.302Z\",\n      \"updated_at\": \"1979-11-06T11:15:05.801Z\"\n    }\n  ],\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65fb7b7b-6720-4253-920a-e0f310b80a30",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"set\": \"<object>\",\n  \"unset\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5832,\n  \"message\": \"string\",\n  \"StatusCode\": 9120,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e60adfeb-9a4f-40c5-ac2a-9d9716a96779",
+          "name": "Delete a channel",
+          "request": {
+            "name": "Delete a channel",
+            "description": {
+              "content": "Delete a channel and all of its messages (soft or hard delete).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "channels",
+                ":type",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "hard_delete",
+                  "value": "<boolean>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The channel id, unique within the channel type."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "02c402b0-2261-44d8-88f5-175399ce3485",
+              "name": "A channel and its state.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "hard_delete",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"channel\": {\n    \"id\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"member_count\": 207,\n    \"created_by\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": false,\n      \"last_active\": \"1968-09-24T19:25:54.476Z\",\n      \"created_at\": \"1992-12-11T16:50:09.725Z\"\n    },\n    \"created_at\": \"2022-01-19T04:58:41.519Z\",\n    \"updated_at\": \"2009-06-06T01:24:09.855Z\"\n  },\n  \"messages\": [\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1950-11-04T15:41:32.231Z\",\n        \"created_at\": \"1947-01-20T06:12:40.301Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 851,\n        \"key_1\": 4085,\n        \"key_2\": 5796\n      },\n      \"created_at\": \"2010-10-09T15:45:27.946Z\",\n      \"updated_at\": \"1961-01-13T00:09:57.419Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1966-09-05T09:24:29.793Z\",\n        \"created_at\": \"2008-02-06T06:02:15.302Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 4493,\n        \"key_1\": 1892\n      },\n      \"created_at\": \"2003-09-08T23:44:01.302Z\",\n      \"updated_at\": \"1979-11-06T11:15:05.801Z\"\n    }\n  ],\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1c533ec-071f-474e-9260-7a7307d8cd63",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "hard_delete",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5832,\n  \"message\": \"string\",\n  \"StatusCode\": 9120,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ba73e6e0-eaed-41d1-96df-583ef9d1750e",
+          "name": "Get or create a channel",
+          "request": {
+            "name": "Get or create a channel",
+            "description": {
+              "content": "Fetch a channel's full state, creating it if it does not yet exist, and optionally start watching it. This is the primary way to load a channel.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "channels",
+                ":type",
+                ":id",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The channel id, unique within the channel type."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"watch\": \"<boolean>\",\n  \"state\": \"<boolean>\",\n  \"presence\": \"<boolean>\",\n  \"data\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "554c48f8-f58f-440b-8456-a641fbced650",
+              "name": "A channel and its state.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"watch\": \"<boolean>\",\n  \"state\": \"<boolean>\",\n  \"presence\": \"<boolean>\",\n  \"data\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"channel\": {\n    \"id\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"member_count\": 207,\n    \"created_by\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": false,\n      \"last_active\": \"1968-09-24T19:25:54.476Z\",\n      \"created_at\": \"1992-12-11T16:50:09.725Z\"\n    },\n    \"created_at\": \"2022-01-19T04:58:41.519Z\",\n    \"updated_at\": \"2009-06-06T01:24:09.855Z\"\n  },\n  \"messages\": [\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1950-11-04T15:41:32.231Z\",\n        \"created_at\": \"1947-01-20T06:12:40.301Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 851,\n        \"key_1\": 4085,\n        \"key_2\": 5796\n      },\n      \"created_at\": \"2010-10-09T15:45:27.946Z\",\n      \"updated_at\": \"1961-01-13T00:09:57.419Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1966-09-05T09:24:29.793Z\",\n        \"created_at\": \"2008-02-06T06:02:15.302Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 4493,\n        \"key_1\": 1892\n      },\n      \"created_at\": \"2003-09-08T23:44:01.302Z\",\n      \"updated_at\": \"1979-11-06T11:15:05.801Z\"\n    }\n  ],\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15cea18d-c201-4097-b857-0ad2970e5a5b",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"watch\": \"<boolean>\",\n  \"state\": \"<boolean>\",\n  \"presence\": \"<boolean>\",\n  \"data\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5832,\n  \"message\": \"string\",\n  \"StatusCode\": 9120,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "84656ff5-cc3b-414d-bfc7-91e7f13a4292",
+          "name": "Truncate a channel",
+          "request": {
+            "name": "Truncate a channel",
+            "description": {
+              "content": "Remove all messages from a channel while keeping the channel itself.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "channels",
+                ":type",
+                ":id",
+                "truncate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The channel id, unique within the channel type."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "538108d4-5053-4963-80a9-916ab45eedb2",
+              "name": "A channel and its state.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id",
+                    "truncate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"channel\": {\n    \"id\": \"string\",\n    \"type\": \"string\",\n    \"cid\": \"string\",\n    \"member_count\": 207,\n    \"created_by\": {\n      \"id\": \"string\",\n      \"role\": \"string\",\n      \"name\": \"string\",\n      \"image\": \"string\",\n      \"online\": false,\n      \"last_active\": \"1968-09-24T19:25:54.476Z\",\n      \"created_at\": \"1992-12-11T16:50:09.725Z\"\n    },\n    \"created_at\": \"2022-01-19T04:58:41.519Z\",\n    \"updated_at\": \"2009-06-06T01:24:09.855Z\"\n  },\n  \"messages\": [\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1950-11-04T15:41:32.231Z\",\n        \"created_at\": \"1947-01-20T06:12:40.301Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 851,\n        \"key_1\": 4085,\n        \"key_2\": 5796\n      },\n      \"created_at\": \"2010-10-09T15:45:27.946Z\",\n      \"updated_at\": \"1961-01-13T00:09:57.419Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"text\": \"string\",\n      \"type\": \"string\",\n      \"cid\": \"string\",\n      \"user\": {\n        \"id\": \"string\",\n        \"role\": \"string\",\n        \"name\": \"string\",\n        \"image\": \"string\",\n        \"online\": false,\n        \"last_active\": \"1966-09-05T09:24:29.793Z\",\n        \"created_at\": \"2008-02-06T06:02:15.302Z\"\n      },\n      \"parent_id\": \"string\",\n      \"reaction_counts\": {\n        \"key_0\": 4493,\n        \"key_1\": 1892\n      },\n      \"created_at\": \"2003-09-08T23:44:01.302Z\",\n      \"updated_at\": \"1979-11-06T11:15:05.801Z\"\n    }\n  ],\n  \"duration\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5e4cd1b-67bb-45d3-b027-f8972c514559",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id",
+                    "truncate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5832,\n  \"message\": \"string\",\n  \"StatusCode\": 9120,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f823f28e-2cbd-4010-aa8c-15e04b4653db",
+          "name": "Mark a channel read",
+          "request": {
+            "name": "Mark a channel read",
+            "description": {
+              "content": "Mark messages in a channel as read for a user, updating unread counts and emitting a `message.read` event.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "channels",
+                ":type",
+                ":id",
+                "read"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "type",
+                  "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The channel id, unique within the channel type."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "39b17d08-0f02-4f05-9dc6-572f15be2994",
+              "name": "Read state updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f9eb18c-5c4b-4b95-acd1-8ab6d0a53ac3",
+              "name": "Rate limit exceeded for this app, platform, and endpoint. Inspect the X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "channels",
+                    ":type",
+                    ":id",
+                    "read"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "type",
+                      "description": "(Required) The channel type, e.g. messaging, livestream, team, gaming, commerce."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The channel id, unique within the channel type."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Limit",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "X-RateLimit-Reset",
+                  "value": "2272",
+                  "description": ""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5832,\n  \"message\": \"string\",\n  \"StatusCode\": 9120,\n  \"duration\": \"string\",\n  \"more_info\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.stream-io-api.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "388d28e4-93a6-451f-8bf0-2fd678459273",
+    "name": "Stream Chat API (Server-side REST) Application Channels API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream's published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.\nPath and method choices here are taken from Stream's official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.\n\nContact Support:\n Name: API Evangelist\n Email: kin@apievangelist.com",
+      "type": "text/plain"
+    }
+  }
+}

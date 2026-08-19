@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stream Chat API (Server-side REST) Application API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Application",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.stream-io-api.com/search",
+            "params": [
+              {
+                "name": "payload",
+                "value": "",
+                "type": "query",
+                "description": "URL-encoded JSON search request (filter_conditions, query, sort, limit)."
+              }
+            ]
+          },
+          "docs": "Full-text search of messages across an application's channels."
+        },
+        {
+          "info": {
+            "name": "Get rate limits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://chat.stream-io-api.com/rate_limits",
+            "params": [
+              {
+                "name": "server_side",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "android",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ios",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "web",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endpoints",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Return the rate limit quotas and current usage for the application, optionally filtered by platform and endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

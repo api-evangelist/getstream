@@ -1,0 +1,256 @@
+{
+  "item": [
+    {
+      "id": "76e1d7da-6bcc-4ef4-8c8d-4526e43dbe5f",
+      "name": "Application",
+      "description": {
+        "content": "Application-level utilities such as rate limits and search.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "24a467c9-5b24-4cf5-857f-7d14a09cd0c3",
+          "name": "Search messages",
+          "request": {
+            "name": "Search messages",
+            "description": {
+              "content": "Full-text search of messages across an application's channels.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "payload",
+                  "value": "<string>",
+                  "description": "URL-encoded JSON search request (filter_conditions, query, sort, limit)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b1c0b14-b12d-415d-b4f4-da379d20ee18",
+              "name": "Search results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "payload",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ddd6cf40-20ef-4664-9d0d-d59dc862f4b8",
+          "name": "Get rate limits",
+          "request": {
+            "name": "Get rate limits",
+            "description": {
+              "content": "Return the rate limit quotas and current usage for the application, optionally filtered by platform and endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rate_limits"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "server_side",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "android",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "ios",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "web",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "endpoints",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6af404d8-b50b-4d05-b0d1-a10a707c3cac",
+              "name": "Rate limit quotas per platform and endpoint.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rate_limits"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "server_side",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "android",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "ios",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "web",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "endpoints",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://chat.stream-io-api.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "03e2f7c4-294e-4bd1-92e2-979ae9aa81c8",
+    "name": "Stream Chat API (Server-side REST) Application API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Server-side REST API for Stream (GetStream.io) Chat. This is a curated subset of Stream's published Chat protocol (https://getstream.github.io/protocol), grounding the endpoints modeled in the API Evangelist catalog against the real base URL and paths. The Chat API is addressed at https://chat.stream-io-api.com. Every request carries the application `api_key` as a query parameter and is authenticated with a JWT sent in the `Authorization` header together with a `Stream-Auth-Type: jwt` header. Server-side tokens (no `user_id` claim) are used for the operations in this document; client tokens are used to open the real-time WebSocket connection modeled in the companion AsyncAPI document.\nPath and method choices here are taken from Stream's official chat-openapi.yaml (github.com/GetStream/protocol). Request and response bodies are represented generically; consult the linked protocol reference for the full schemas.\n\nContact Support:\n Name: API Evangelist\n Email: kin@apievangelist.com",
+      "type": "text/plain"
+    }
+  }
+}
