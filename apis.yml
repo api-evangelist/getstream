@@ -541,6 +541,9 @@ apis:
   - type: Documentation
     url: https://getstream.io/chat/docs/node/campaigns/
 common:
+- type: CapabilityMap
+  url: capabilities/getstream-capability-edges.yml
+  name: Stream Business Capability Map
 - type: AgenticAccess
   url: agentic-access/getstream-agentic-access.yml
 - type: TrustCenter

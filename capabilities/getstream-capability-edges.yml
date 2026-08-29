@@ -1,0 +1,26 @@
+slug: getstream
+provider: Stream
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Moderation
+  spec_file: getstream-moderation-api-openapi.yml
+  capability_id: BC-3780.40
+  capability_id_l1: BC-3780
+  capability_name: User-Generated Content Moderation
+  confidence: 0.78
+  evidence: POST /moderation/flag "Flag a message or user"; POST /moderation/ban "Ban a user"; POST /moderation/mute
+    "Mute a user"
+  reason: These operations perform moderation actions (flag, ban, mute) over user-generated chat content
+    and its authors, which is exactly User-Generated Content Moderation. Some residual ambiguity because
+    the endpoints are enforcement primitives rather than a full review workflow.
