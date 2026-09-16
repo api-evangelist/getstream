@@ -70,7 +70,10 @@ apis:
     type: Documentation
   - url: https://getstream.io/activity-feeds/docs/rest/
     type: APIReference
-  description: Build scalable activity feeds and timelines - add activities to feeds, follow and unfollow feeds, aggregate and rank activities, and fan out to followers. Powers social timelines, notification feeds, and news feeds.
+  description: >-
+    Build scalable activity feeds and timelines - add activities to feeds, follow and unfollow feeds,
+    aggregate and rank activities, and fan out to followers. Powers social timelines, notification feeds,
+    and news feeds.
 - aid: getstream:getstream-video-audio-api
   name: Stream Video and Audio API
   tags:
@@ -91,453 +94,19 @@ apis:
     type: Documentation
   - url: https://getstream.github.io/protocol/?urls.primaryName=Video
     type: APIReference
-  description: Create and manage audio/video calls and livestreams - get-or-create calls, manage call members and permissions, start and stop recording, transcription, and broadcasting. Metered on participant minutes.
-- aid: getstream:getstream-application-api
-  name: Stream Application API
-  description: Application-level utilities such as rate limits and search.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Application
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-application-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-campaigns-api
-  name: Stream Campaigns API
-  description: Create and control bulk messaging campaigns.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Campaigns
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-campaigns-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-channels-api
-  name: Stream Channels API
-  description: Query, create, update, truncate, and delete chat channels.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Channels
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-channels-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-devices-api
-  name: Stream Devices API
-  description: Register and manage push notification devices.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Devices
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-devices-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-members-api
-  name: Stream Members API
-  description: Query and partially update channel members.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Members
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-members-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-messages-api
-  name: Stream Messages API
-  description: Send, retrieve, update, delete, and search messages and replies.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Message
-  tags_raw:
-  - Messages
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-messages-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-moderation-api
-  name: Stream Moderation API
-  description: Ban, flag, and mute users, messages, and channels.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Moderation
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-moderation-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-permissions-api
-  name: Stream Permissions API
-  description: Inspect application permissions.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Permissions
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-permissions-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-reactions-api
-  name: Stream Reactions API
-  description: Add and remove emoji reactions on messages.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Reactions
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-reactions-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-roles-api
-  name: Stream Roles API
-  description: List, create, and delete custom roles.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Roles
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-roles-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-threads-api
-  name: Stream Threads API
-  description: Query and retrieve message threads.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - Threads
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-threads-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:getstream-users-api
-  name: Stream Users API
-  description: Upsert, query, update, deactivate, and reactivate users.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
-  tags:
-  - User
-  tags_raw:
-  - Users
-  properties:
-  - type: OpenAPI
-    url: openapi/getstream-users-api-openapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Chat
-  - type: AsyncAPI
-    url: asyncapi/getstream-asyncapi.yml
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_message/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/channel_members/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/send_reaction/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/threads/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/update_users/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/push_devices/
-  - type: Documentation
-    url: https://getstream.io/moderation/docs/
-  - type: APIReference
-    url: https://getstream.github.io/protocol/?urls.primaryName=Moderation
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/permissions_reference/
-  - type: Documentation
-    url: https://getstream.io/chat/docs/node/campaigns/
-- aid: getstream:stream-io-product-chat-api
-  name: Stream product:chat API
+  description: >-
+    Create and manage audio/video calls and livestreams - get-or-create calls, manage call members and
+    permissions, start and stop recording, transcription, and broadcasting. Metered on participant minutes.
+- aid: getstream:getstream-product-chat-api
+  name: Stream Product:chat API
   description: The product:chat API from Stream — 194 operation(s) for product:chat.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
+  humanURL: https://getstream.io/activity-feeds/docs/
+  baseURL: https://api.stream-io-api.com
   tags:
   - product:chat
   properties:
   - type: OpenAPI
-    url: openapi/stream-io-product-chat-api-openapi.yml
+    url: openapi/getstream-product-chat-api-openapi.yml
   - type: Documentation
     url: https://getstream.io/chat/docs/
   - type: APIReference
@@ -559,17 +128,18 @@ apis:
   - type: Documentation
     url: https://getstream.io/moderation/docs/
   - type: OpenAPISource
-    url: https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
-- aid: getstream:stream-io-product-common-api
-  name: Stream product:common API
+    url: >-
+      https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
+- aid: getstream:getstream-product-common-api
+  name: Stream Product:common API
   description: The product:common API from Stream — 54 operation(s) for product:common.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
+  humanURL: https://getstream.io/activity-feeds/docs/
+  baseURL: https://api.stream-io-api.com
   tags:
   - product:common
   properties:
   - type: OpenAPI
-    url: openapi/stream-io-product-common-api-openapi.yml
+    url: openapi/getstream-product-common-api-openapi.yml
   - type: Documentation
     url: https://getstream.io/chat/docs/
   - type: APIReference
@@ -591,19 +161,18 @@ apis:
   - type: Documentation
     url: https://getstream.io/moderation/docs/
   - type: OpenAPISource
-    url: https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
-- aid: getstream:stream-io-product-feeds-api
-  name: Stream product:feeds API
+    url: >-
+      https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
+- aid: getstream:getstream-product-feeds-api
+  name: Stream Product:feeds API
   description: The product:feeds API from Stream — 69 operation(s) for product:feeds.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
+  humanURL: https://getstream.io/activity-feeds/docs/
+  baseURL: https://api.stream-io-api.com
   tags:
-  - Product Feeds
-  tags_raw:
   - product:feeds
   properties:
   - type: OpenAPI
-    url: openapi/stream-io-product-feeds-api-openapi.yml
+    url: openapi/getstream-product-feeds-api-openapi.yml
   - type: Documentation
     url: https://getstream.io/chat/docs/
   - type: APIReference
@@ -625,17 +194,18 @@ apis:
   - type: Documentation
     url: https://getstream.io/moderation/docs/
   - type: OpenAPISource
-    url: https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
-- aid: getstream:stream-io-product-moderation-api
-  name: Stream product:moderation API
+    url: >-
+      https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
+- aid: getstream:getstream-product-moderation-api
+  name: Stream Product:moderation API
   description: The product:moderation API from Stream — 56 operation(s) for product:moderation.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
+  humanURL: https://getstream.io/activity-feeds/docs/
+  baseURL: https://api.stream-io-api.com
   tags:
   - product:moderation
   properties:
   - type: OpenAPI
-    url: openapi/stream-io-product-moderation-api-openapi.yml
+    url: openapi/getstream-product-moderation-api-openapi.yml
   - type: Documentation
     url: https://getstream.io/chat/docs/
   - type: APIReference
@@ -657,17 +227,18 @@ apis:
   - type: Documentation
     url: https://getstream.io/moderation/docs/
   - type: OpenAPISource
-    url: https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
-- aid: getstream:stream-io-product-video-api
-  name: Stream product:video API
+    url: >-
+      https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
+- aid: getstream:getstream-product-video-api
+  name: Stream Product:video API
   description: The product:video API from Stream — 121 operation(s) for product:video.
-  humanURL: https://getstream.io/chat/docs/
-  baseURL: https://chat.stream-io-api.com
+  humanURL: https://getstream.io/activity-feeds/docs/
+  baseURL: https://api.stream-io-api.com
   tags:
   - product:video
   properties:
   - type: OpenAPI
-    url: openapi/stream-io-product-video-api-openapi.yml
+    url: openapi/getstream-product-video-api-openapi.yml
   - type: Documentation
     url: https://getstream.io/chat/docs/
   - type: APIReference
@@ -689,7 +260,8 @@ apis:
   - type: Documentation
     url: https://getstream.io/moderation/docs/
   - type: OpenAPISource
-    url: https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
+    url: >-
+      https://raw.githubusercontent.com/GetStream/protocol/main/openapi/moderation-openapi.yaml
 common:
 - type: CapabilityMap
   url: capabilities/getstream-capability-edges.yml
