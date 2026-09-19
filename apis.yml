@@ -169,6 +169,8 @@ apis:
   humanURL: https://getstream.io/activity-feeds/docs/
   baseURL: https://api.stream-io-api.com
   tags:
+  - Product Feeds
+  tags_raw:
   - product:feeds
   properties:
   - type: OpenAPI
