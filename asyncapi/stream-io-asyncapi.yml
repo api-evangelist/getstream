@@ -1,0 +1,1361 @@
+asyncapi: 2.6.0
+info:
+  title: Stream Chat WebSocket API
+  version: '1.0.0'
+  description: |
+    AsyncAPI description of the Stream (GetStream) Chat realtime WebSocket API.
+
+    Clients connect to `wss://chat.stream-io-api.com/connect` with a JWT user token
+    and receive a stream of JSON events. Event types and payloads are sourced from
+    the official Stream Chat documentation (`event_object` page) and the published
+    Stream Protocol OpenAPI definition (`WSEvent` and its discriminator mapping).
+
+    This document only describes events that are explicitly documented by Stream.
+  contact:
+    name: Stream
+    url: https://getstream.io/chat/docs/
+  license:
+    name: Proprietary
+    url: https://getstream.io/legal/terms/
+  x-apisjson-aid: stream-io:chat:asyncapi
+
+defaultContentType: application/json
+
+servers:
+  production:
+    url: chat.stream-io-api.com
+    protocol: wss
+    description: |
+      Stream Chat WebSocket endpoint. The official SDK builds the URL as
+      `wss://chat.stream-io-api.com/connect?json={...}&api_key=...&authorization={jwt}&stream-auth-type=jwt&X-Stream-Client={ua}`.
+      The `json` query parameter carries the connection payload (user_id, user_details, server_determines_connection_id).
+    variables:
+      apiKey:
+        description: Stream API key for your app.
+        default: STREAM_API_KEY
+    bindings:
+      ws:
+        query:
+          type: object
+          properties:
+            api_key:
+              type: string
+              description: Stream API key.
+            authorization:
+              type: string
+              description: JWT user token signed with the app's API secret.
+            stream-auth-type:
+              type: string
+              enum: [jwt, anonymous]
+              description: Authentication scheme used for the connection.
+            X-Stream-Client:
+              type: string
+              description: SDK user-agent identifier (e.g. `stream-chat-javascript-client-browser-8.x`).
+            json:
+              type: string
+              description: |
+                URL-encoded JSON connection payload. Documented shape:
+                `{ "user_id": "...", "user_details": { "id": "...", "name": "...", "image": "..." }, "server_determines_connection_id": true }`.
+
+channels:
+  /connect:
+    description: |
+      Single WebSocket channel that multiplexes every Stream Chat event for the
+      connected user across all channels they watch. The first frame after a
+      successful handshake is a `health.check` event carrying the connection_id
+      and the authenticated user's `me` payload.
+    bindings:
+      ws:
+        method: GET
+        bindingVersion: 0.1.0
+    subscribe:
+      operationId: receiveChatEvent
+      summary: Receive events from Stream Chat.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/HealthCheck'
+          - $ref: '#/components/messages/ConnectionChanged'
+          - $ref: '#/components/messages/ConnectionRecovered'
+          - $ref: '#/components/messages/MessageNew'
+          - $ref: '#/components/messages/MessageUpdated'
+          - $ref: '#/components/messages/MessageDeleted'
+          - $ref: '#/components/messages/MessageUndeleted'
+          - $ref: '#/components/messages/MessageRead'
+          - $ref: '#/components/messages/MessageFlagged'
+          - $ref: '#/components/messages/MessageUnblocked'
+          - $ref: '#/components/messages/MessagePending'
+          - $ref: '#/components/messages/ReactionNew'
+          - $ref: '#/components/messages/ReactionUpdated'
+          - $ref: '#/components/messages/ReactionDeleted'
+          - $ref: '#/components/messages/TypingStart'
+          - $ref: '#/components/messages/TypingStop'
+          - $ref: '#/components/messages/ChannelCreated'
+          - $ref: '#/components/messages/ChannelUpdated'
+          - $ref: '#/components/messages/ChannelDeleted'
+          - $ref: '#/components/messages/ChannelHidden'
+          - $ref: '#/components/messages/ChannelVisible'
+          - $ref: '#/components/messages/ChannelTruncated'
+          - $ref: '#/components/messages/ChannelFrozen'
+          - $ref: '#/components/messages/ChannelUnfrozen'
+          - $ref: '#/components/messages/ChannelMuted'
+          - $ref: '#/components/messages/ChannelUnmuted'
+          - $ref: '#/components/messages/MemberAdded'
+          - $ref: '#/components/messages/MemberRemoved'
+          - $ref: '#/components/messages/MemberUpdated'
+          - $ref: '#/components/messages/UserPresenceChanged'
+          - $ref: '#/components/messages/UserUpdated'
+          - $ref: '#/components/messages/UserDeleted'
+          - $ref: '#/components/messages/UserBanned'
+          - $ref: '#/components/messages/UserUnbanned'
+          - $ref: '#/components/messages/UserMuted'
+          - $ref: '#/components/messages/UserUnmuted'
+          - $ref: '#/components/messages/UserFlagged'
+          - $ref: '#/components/messages/UserDeactivated'
+          - $ref: '#/components/messages/UserReactivated'
+          - $ref: '#/components/messages/UserMessagesDeleted'
+          - $ref: '#/components/messages/UserWatchingStart'
+          - $ref: '#/components/messages/UserWatchingStop'
+          - $ref: '#/components/messages/UserUnreadMessageReminder'
+          - $ref: '#/components/messages/NotificationMessageNew'
+          - $ref: '#/components/messages/NotificationMarkRead'
+          - $ref: '#/components/messages/NotificationMarkUnread'
+          - $ref: '#/components/messages/NotificationAddedToChannel'
+          - $ref: '#/components/messages/NotificationRemovedFromChannel'
+          - $ref: '#/components/messages/NotificationInvited'
+          - $ref: '#/components/messages/NotificationInviteAccepted'
+          - $ref: '#/components/messages/NotificationInviteRejected'
+          - $ref: '#/components/messages/NotificationChannelDeleted'
+          - $ref: '#/components/messages/NotificationChannelTruncated'
+          - $ref: '#/components/messages/NotificationChannelMutesUpdated'
+          - $ref: '#/components/messages/NotificationMutesUpdated'
+          - $ref: '#/components/messages/NotificationThreadMessageNew'
+          - $ref: '#/components/messages/NotificationReminderDue'
+          - $ref: '#/components/messages/ReminderCreated'
+          - $ref: '#/components/messages/ReminderUpdated'
+          - $ref: '#/components/messages/ReminderDeleted'
+          - $ref: '#/components/messages/ThreadUpdated'
+    publish:
+      operationId: sendClientEvent
+      summary: Client-originated events sent over the same socket.
+      description: |
+        The Stream Chat SDK lets clients publish a small set of events back over
+        the WebSocket (typing indicators and custom channel events).
+      message:
+        oneOf:
+          - $ref: '#/components/messages/TypingStart'
+          - $ref: '#/components/messages/TypingStop'
+          - $ref: '#/components/messages/CustomEvent'
+
+components:
+  messages:
+    HealthCheck:
+      name: HealthCheckEvent
+      title: health.check
+      summary: Periodic keep-alive ping delivered roughly every 30 seconds; also the first frame after connect.
+      payload:
+        $ref: '#/components/schemas/HealthCheckEvent'
+    ConnectionChanged:
+      name: ConnectionChangedEvent
+      title: connection.changed
+      summary: Local WebSocket connection state has changed (online/offline).
+      payload:
+        $ref: '#/components/schemas/ConnectionChangedEvent'
+    ConnectionRecovered:
+      name: ConnectionRecoveredEvent
+      title: connection.recovered
+      summary: WebSocket has finished reconnecting and is healthy again.
+      payload:
+        $ref: '#/components/schemas/ConnectionRecoveredEvent'
+
+    MessageNew:
+      name: MessageNewEvent
+      title: message.new
+      summary: A new message was sent to a channel the user is watching.
+      payload:
+        $ref: '#/components/schemas/MessageNewEvent'
+    MessageUpdated:
+      name: MessageUpdatedEvent
+      title: message.updated
+      summary: A message was edited.
+      payload:
+        $ref: '#/components/schemas/MessageUpdatedEvent'
+    MessageDeleted:
+      name: MessageDeletedEvent
+      title: message.deleted
+      summary: A message was removed.
+      payload:
+        $ref: '#/components/schemas/MessageDeletedEvent'
+    MessageUndeleted:
+      name: MessageUndeletedEvent
+      title: message.undeleted
+      summary: A previously deleted message was restored.
+      payload:
+        $ref: '#/components/schemas/MessageUndeletedEvent'
+    MessageRead:
+      name: MessageReadEvent
+      title: message.read
+      summary: A channel was marked as read by a user.
+      payload:
+        $ref: '#/components/schemas/MessageReadEvent'
+    MessageFlagged:
+      name: MessageFlaggedEvent
+      title: message.flagged
+      summary: A message was flagged.
+      payload:
+        $ref: '#/components/schemas/MessageFlaggedEvent'
+    MessageUnblocked:
+      name: MessageUnblockedEvent
+      title: message.unblocked
+      summary: A previously blocked message was unblocked.
+      payload:
+        $ref: '#/components/schemas/MessageUnblockedEvent'
+    MessagePending:
+      name: PendingMessageEvent
+      title: message.pending
+      summary: A message is pending moderation or a before-message-send hook.
+      payload:
+        $ref: '#/components/schemas/PendingMessageEvent'
+
+    ReactionNew:
+      name: ReactionNewEvent
+      title: reaction.new
+      summary: A reaction was added to a message.
+      payload:
+        $ref: '#/components/schemas/ReactionNewEvent'
+    ReactionUpdated:
+      name: ReactionUpdatedEvent
+      title: reaction.updated
+      summary: A reaction was modified.
+      payload:
+        $ref: '#/components/schemas/ReactionUpdatedEvent'
+    ReactionDeleted:
+      name: ReactionDeletedEvent
+      title: reaction.deleted
+      summary: A reaction was removed from a message.
+      payload:
+        $ref: '#/components/schemas/ReactionDeletedEvent'
+
+    TypingStart:
+      name: TypingStartEvent
+      title: typing.start
+      summary: A user has started typing in a channel.
+      payload:
+        $ref: '#/components/schemas/TypingStartEvent'
+    TypingStop:
+      name: TypingStopEvent
+      title: typing.stop
+      summary: A user has stopped typing in a channel.
+      payload:
+        $ref: '#/components/schemas/TypingStopEvent'
+
+    ChannelCreated:
+      name: ChannelCreatedEvent
+      title: channel.created
+      summary: A channel was created.
+      payload:
+        $ref: '#/components/schemas/ChannelCreatedEvent'
+    ChannelUpdated:
+      name: ChannelUpdatedEvent
+      title: channel.updated
+      summary: A channel was updated.
+      payload:
+        $ref: '#/components/schemas/ChannelUpdatedEvent'
+    ChannelDeleted:
+      name: ChannelDeletedEvent
+      title: channel.deleted
+      summary: A channel was deleted.
+      payload:
+        $ref: '#/components/schemas/ChannelDeletedEvent'
+    ChannelHidden:
+      name: ChannelHiddenEvent
+      title: channel.hidden
+      summary: A channel was hidden for a user.
+      payload:
+        $ref: '#/components/schemas/ChannelHiddenEvent'
+    ChannelVisible:
+      name: ChannelVisibleEvent
+      title: channel.visible
+      summary: A previously hidden channel was made visible again.
+      payload:
+        $ref: '#/components/schemas/ChannelVisibleEvent'
+    ChannelTruncated:
+      name: ChannelTruncatedEvent
+      title: channel.truncated
+      summary: A channel's history was truncated.
+      payload:
+        $ref: '#/components/schemas/ChannelTruncatedEvent'
+    ChannelFrozen:
+      name: ChannelFrozenEvent
+      title: channel.frozen
+      summary: A channel was frozen.
+      payload:
+        $ref: '#/components/schemas/ChannelFrozenEvent'
+    ChannelUnfrozen:
+      name: ChannelUnFrozenEvent
+      title: channel.unfrozen
+      summary: A channel was unfrozen.
+      payload:
+        $ref: '#/components/schemas/ChannelUnFrozenEvent'
+    ChannelMuted:
+      name: ChannelMutedEvent
+      title: channel.muted
+      summary: A channel was muted by the user.
+      payload:
+        $ref: '#/components/schemas/ChannelMutedEvent'
+    ChannelUnmuted:
+      name: ChannelUnmutedEvent
+      title: channel.unmuted
+      summary: A channel was unmuted by the user.
+      payload:
+        $ref: '#/components/schemas/ChannelUnmutedEvent'
+
+    MemberAdded:
+      name: MemberAddedEvent
+      title: member.added
+      summary: A member was added to a channel.
+      payload:
+        $ref: '#/components/schemas/MemberAddedEvent'
+    MemberRemoved:
+      name: MemberRemovedEvent
+      title: member.removed
+      summary: A member was removed from a channel.
+      payload:
+        $ref: '#/components/schemas/MemberRemovedEvent'
+    MemberUpdated:
+      name: MemberUpdatedEvent
+      title: member.updated
+      summary: A member's role or status changed.
+      payload:
+        $ref: '#/components/schemas/MemberUpdatedEvent'
+
+    UserPresenceChanged:
+      name: UserPresenceChangedEvent
+      title: user.presence.changed
+      summary: A user's online/offline presence has changed.
+      payload:
+        $ref: '#/components/schemas/UserPresenceChangedEvent'
+    UserUpdated:
+      name: UserUpdatedEvent
+      title: user.updated
+      summary: A user's profile was updated.
+      payload:
+        $ref: '#/components/schemas/UserUpdatedEvent'
+    UserDeleted:
+      name: UserDeletedEvent
+      title: user.deleted
+      summary: A user was deleted.
+      payload:
+        $ref: '#/components/schemas/UserDeletedEvent'
+    UserBanned:
+      name: UserBannedEvent
+      title: user.banned
+      summary: A user was banned.
+      payload:
+        $ref: '#/components/schemas/UserBannedEvent'
+    UserUnbanned:
+      name: UserUnbannedEvent
+      title: user.unbanned
+      summary: A user ban was lifted.
+      payload:
+        $ref: '#/components/schemas/UserUnbannedEvent'
+    UserMuted:
+      name: UserMutedEvent
+      title: user.muted
+      summary: A user was muted.
+      payload:
+        $ref: '#/components/schemas/UserMutedEvent'
+    UserUnmuted:
+      name: UserUnmutedEvent
+      title: user.unmuted
+      summary: A user was unmuted.
+      payload:
+        $ref: '#/components/schemas/UserUnmutedEvent'
+    UserFlagged:
+      name: UserFlaggedEvent
+      title: user.flagged
+      summary: A user was flagged.
+      payload:
+        $ref: '#/components/schemas/UserFlaggedEvent'
+    UserDeactivated:
+      name: UserDeactivatedEvent
+      title: user.deactivated
+      summary: A user was deactivated.
+      payload:
+        $ref: '#/components/schemas/UserDeactivatedEvent'
+    UserReactivated:
+      name: UserReactivatedEvent
+      title: user.reactivated
+      summary: A user was reactivated.
+      payload:
+        $ref: '#/components/schemas/UserReactivatedEvent'
+    UserMessagesDeleted:
+      name: UserMessagesDeletedEvent
+      title: user.messages.deleted
+      summary: All messages by a user were deleted.
+      payload:
+        $ref: '#/components/schemas/UserMessagesDeletedEvent'
+    UserWatchingStart:
+      name: UserWatchingStartEvent
+      title: user.watching.start
+      summary: A user started watching a channel.
+      payload:
+        $ref: '#/components/schemas/UserWatchingStartEvent'
+    UserWatchingStop:
+      name: UserWatchingStopEvent
+      title: user.watching.stop
+      summary: A user stopped watching a channel.
+      payload:
+        $ref: '#/components/schemas/UserWatchingStopEvent'
+    UserUnreadMessageReminder:
+      name: UserUnreadReminderEvent
+      title: user.unread_message_reminder
+      summary: Periodic reminder of unread messages for a user.
+      payload:
+        $ref: '#/components/schemas/UserUnreadReminderEvent'
+
+    NotificationMessageNew:
+      name: NotificationMessageNewEvent
+      title: notification.message_new
+      summary: A new message was sent in a channel the user is a member of but not actively watching.
+      payload:
+        $ref: '#/components/schemas/NotificationMessageNewEvent'
+    NotificationMarkRead:
+      name: NotificationMarkReadEvent
+      title: notification.mark_read
+      summary: The user's unread counts changed because a channel was marked as read.
+      payload:
+        $ref: '#/components/schemas/NotificationMarkReadEvent'
+    NotificationMarkUnread:
+      name: NotificationMarkUnreadEvent
+      title: notification.mark_unread
+      summary: A message was marked unread.
+      payload:
+        $ref: '#/components/schemas/NotificationMarkUnreadEvent'
+    NotificationAddedToChannel:
+      name: NotificationAddedToChannelEvent
+      title: notification.added_to_channel
+      summary: The user was added to a channel.
+      payload:
+        $ref: '#/components/schemas/NotificationAddedToChannelEvent'
+    NotificationRemovedFromChannel:
+      name: NotificationRemovedFromChannelEvent
+      title: notification.removed_from_channel
+      summary: The user was removed from a channel.
+      payload:
+        $ref: '#/components/schemas/NotificationRemovedFromChannelEvent'
+    NotificationInvited:
+      name: NotificationInvitedEvent
+      title: notification.invited
+      summary: The user was invited to a channel.
+      payload:
+        $ref: '#/components/schemas/NotificationInvitedEvent'
+    NotificationInviteAccepted:
+      name: NotificationInviteAcceptedEvent
+      title: notification.invite_accepted
+      summary: A channel invite was accepted.
+      payload:
+        $ref: '#/components/schemas/NotificationInviteAcceptedEvent'
+    NotificationInviteRejected:
+      name: NotificationInviteRejectedEvent
+      title: notification.invite_rejected
+      summary: A channel invite was rejected.
+      payload:
+        $ref: '#/components/schemas/NotificationInviteRejectedEvent'
+    NotificationChannelDeleted:
+      name: NotificationChannelDeletedEvent
+      title: notification.channel_deleted
+      summary: A channel the user is a member of was deleted.
+      payload:
+        $ref: '#/components/schemas/NotificationChannelDeletedEvent'
+    NotificationChannelTruncated:
+      name: NotificationChannelTruncatedEvent
+      title: notification.channel_truncated
+      summary: A channel the user is a member of was truncated.
+      payload:
+        $ref: '#/components/schemas/NotificationChannelTruncatedEvent'
+    NotificationChannelMutesUpdated:
+      name: NotificationChannelMutesUpdatedEvent
+      title: notification.channel_mutes_updated
+      summary: The user's channel mute list was updated.
+      payload:
+        $ref: '#/components/schemas/NotificationChannelMutesUpdatedEvent'
+    NotificationMutesUpdated:
+      name: NotificationMutesUpdatedEvent
+      title: notification.mutes_updated
+      summary: The user's mute list was updated.
+      payload:
+        $ref: '#/components/schemas/NotificationMutesUpdatedEvent'
+    NotificationThreadMessageNew:
+      name: NotificationThreadMessageNewEvent
+      title: notification.thread_message_new
+      summary: A new reply was posted in a thread the user participates in.
+      payload:
+        $ref: '#/components/schemas/NotificationThreadMessageNewEvent'
+    NotificationReminderDue:
+      name: ReminderNotificationEvent
+      title: notification.reminder_due
+      summary: A scheduled reminder is due.
+      payload:
+        $ref: '#/components/schemas/ReminderNotificationEvent'
+
+    ReminderCreated:
+      name: ReminderCreatedEvent
+      title: reminder.created
+      summary: A reminder was created.
+      payload:
+        $ref: '#/components/schemas/ReminderCreatedEvent'
+    ReminderUpdated:
+      name: ReminderUpdatedEvent
+      title: reminder.updated
+      summary: A reminder was updated.
+      payload:
+        $ref: '#/components/schemas/ReminderUpdatedEvent'
+    ReminderDeleted:
+      name: ReminderDeletedEvent
+      title: reminder.deleted
+      summary: A reminder was deleted.
+      payload:
+        $ref: '#/components/schemas/ReminderDeletedEvent'
+
+    ThreadUpdated:
+      name: ThreadUpdatedEvent
+      title: thread.updated
+      summary: A thread's metadata was updated.
+      payload:
+        $ref: '#/components/schemas/ThreadUpdatedEvent'
+
+    CustomEvent:
+      name: CustomEvent
+      title: custom
+      summary: Any custom event published to a channel via `channel.sendEvent`.
+      payload:
+        $ref: '#/components/schemas/CustomEvent'
+
+  schemas:
+    # ---------------------------------------------------------------------
+    # Base envelope shared by every WS event (see Stream OpenAPI: WSEvent)
+    # ---------------------------------------------------------------------
+    BaseEvent:
+      type: object
+      description: Base WS event envelope shared by every Stream Chat event.
+      required:
+        - type
+        - created_at
+      properties:
+        type:
+          type: string
+          description: The event type, e.g. `message.new`.
+        cid:
+          type: string
+          description: Channel CID (`{type}:{id}`) when the event is scoped to a channel.
+        channel_id:
+          type: string
+        channel_type:
+          type: string
+        connection_id:
+          type: string
+          description: Connection ID assigned to the WebSocket session.
+        created_at:
+          type: string
+          format: date-time
+        team:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        user_id:
+          type: string
+        watcher_count:
+          type: integer
+          format: int32
+        custom:
+          type: object
+          additionalProperties: true
+
+    # ---------------------------------------------------------------------
+    # Reused object schemas (lightweight projections of the OpenAPI models)
+    # ---------------------------------------------------------------------
+    User:
+      type: object
+      properties:
+        id: { type: string }
+        role: { type: string }
+        name: { type: string }
+        image: { type: string }
+        online: { type: boolean }
+        invisible: { type: boolean }
+        banned: { type: boolean }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        last_active: { type: string, format: date-time }
+        deactivated_at: { type: string, format: date-time }
+        deleted_at: { type: string, format: date-time }
+        teams: { type: array, items: { type: string } }
+        custom:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+
+    OwnUser:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            total_unread_count: { type: integer, format: int32 }
+            unread_channels: { type: integer, format: int32 }
+            unread_count: { type: integer, format: int32 }
+            unread_threads: { type: integer, format: int32 }
+            mutes:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+            channel_mutes:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+            devices:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+
+    Channel:
+      type: object
+      properties:
+        id: { type: string }
+        type: { type: string }
+        cid: { type: string }
+        name: { type: string }
+        image: { type: string }
+        member_count: { type: integer, format: int32 }
+        frozen: { type: boolean }
+        hidden: { type: boolean }
+        disabled: { type: boolean }
+        team: { type: string }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        deleted_at: { type: string, format: date-time }
+        last_message_at: { type: string, format: date-time }
+        created_by:
+          $ref: '#/components/schemas/User'
+        config:
+          type: object
+          additionalProperties: true
+        own_capabilities:
+          type: array
+          items: { type: string }
+      additionalProperties: true
+
+    Member:
+      type: object
+      properties:
+        user_id: { type: string }
+        user:
+          $ref: '#/components/schemas/User'
+        role: { type: string }
+        channel_role: { type: string }
+        invited: { type: boolean }
+        invite_accepted_at: { type: string, format: date-time }
+        invite_rejected_at: { type: string, format: date-time }
+        is_moderator: { type: boolean }
+        shadow_banned: { type: boolean }
+        banned: { type: boolean }
+        ban_expires: { type: string, format: date-time }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+      additionalProperties: true
+
+    Message:
+      type: object
+      properties:
+        id: { type: string }
+        cid: { type: string }
+        text: { type: string }
+        html: { type: string }
+        type:
+          type: string
+          enum: [regular, ephemeral, error, reply, system, deleted]
+        user:
+          $ref: '#/components/schemas/User'
+        attachments:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        mentioned_users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        parent_id: { type: string }
+        thread_participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        show_in_channel: { type: boolean }
+        reply_count: { type: integer, format: int32 }
+        deleted_reply_count: { type: integer, format: int32 }
+        reaction_counts:
+          type: object
+          additionalProperties: { type: integer, format: int32 }
+        reaction_scores:
+          type: object
+          additionalProperties: { type: integer, format: int32 }
+        latest_reactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reaction'
+        own_reactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reaction'
+        silent: { type: boolean }
+        shadowed: { type: boolean }
+        pinned: { type: boolean }
+        pinned_at: { type: string, format: date-time }
+        pin_expires: { type: string, format: date-time }
+        pinned_by:
+          $ref: '#/components/schemas/User'
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        deleted_at: { type: string, format: date-time }
+      additionalProperties: true
+
+    Reaction:
+      type: object
+      properties:
+        type: { type: string }
+        message_id: { type: string }
+        user_id: { type: string }
+        user:
+          $ref: '#/components/schemas/User'
+        score: { type: integer, format: int32 }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+      additionalProperties: true
+
+    Read:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        last_read: { type: string, format: date-time }
+        last_read_message_id: { type: string }
+        unread_messages: { type: integer, format: int32 }
+      additionalProperties: true
+
+    Thread:
+      type: object
+      properties:
+        channel_cid: { type: string }
+        parent_message_id: { type: string }
+        title: { type: string }
+        created_by_user_id: { type: string }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        last_message_at: { type: string, format: date-time }
+        reply_count: { type: integer, format: int32 }
+        participant_count: { type: integer, format: int32 }
+        thread_participants:
+          type: array
+          items: { $ref: '#/components/schemas/User' }
+      additionalProperties: true
+
+    # ---------------------------------------------------------------------
+    # Per-event payload schemas (each is the base envelope + an event-typed
+    # `type` discriminator plus the event-specific fields documented by Stream)
+    # ---------------------------------------------------------------------
+
+    HealthCheckEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [health.check] }
+            me:
+              $ref: '#/components/schemas/OwnUser'
+
+    ConnectionChangedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [connection.changed] }
+            online: { type: boolean }
+
+    ConnectionRecoveredEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [connection.recovered] }
+
+    MessageNewEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [message.new] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            message: { $ref: '#/components/schemas/Message' }
+            unread_count: { type: integer, format: int32 }
+            unread_channels: { type: integer, format: int32 }
+            total_unread_count: { type: integer, format: int32 }
+            channel_member_count: { type: integer, format: int32 }
+            channel_message_count: { type: integer, format: int64 }
+            thread_participants:
+              type: array
+              items: { $ref: '#/components/schemas/User' }
+            parent_author: { type: string }
+            received_at: { type: string, format: date-time }
+
+    MessageUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [message.updated] }
+            message: { $ref: '#/components/schemas/Message' }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    MessageDeletedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [message.deleted] }
+            message: { $ref: '#/components/schemas/Message' }
+            hard_delete: { type: boolean }
+
+    MessageUndeletedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [message.undeleted] }
+            message: { $ref: '#/components/schemas/Message' }
+
+    MessageReadEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [message.read] }
+            last_read_message_id: { type: string }
+            total_unread_count: { type: integer, format: int32 }
+            unread_channels: { type: integer, format: int32 }
+            unread_count: { type: integer, format: int32 }
+            unread_messages: { type: integer, format: int32 }
+            thread:
+              $ref: '#/components/schemas/Thread'
+
+    MessageFlaggedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [message.flagged] }
+            message: { $ref: '#/components/schemas/Message' }
+            reason: { type: string }
+
+    MessageUnblockedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [message.unblocked] }
+            message: { $ref: '#/components/schemas/Message' }
+
+    PendingMessageEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [message.pending] }
+            message: { $ref: '#/components/schemas/Message' }
+
+    ReactionNewEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [reaction.new] }
+            message: { $ref: '#/components/schemas/Message' }
+            reaction: { $ref: '#/components/schemas/Reaction' }
+
+    ReactionUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [reaction.updated] }
+            message: { $ref: '#/components/schemas/Message' }
+            reaction: { $ref: '#/components/schemas/Reaction' }
+
+    ReactionDeletedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [reaction.deleted] }
+            message: { $ref: '#/components/schemas/Message' }
+            reaction: { $ref: '#/components/schemas/Reaction' }
+
+    TypingStartEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [typing.start] }
+            parent_id: { type: string }
+
+    TypingStopEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [typing.stop] }
+            parent_id: { type: string }
+
+    ChannelCreatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.created] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            member_count: { type: integer, format: int32 }
+
+    ChannelUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.updated] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            message: { $ref: '#/components/schemas/Message' }
+
+    ChannelDeletedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.deleted] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    ChannelHiddenEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.hidden] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            clear_history: { type: boolean }
+
+    ChannelVisibleEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.visible] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    ChannelTruncatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.truncated] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            message: { $ref: '#/components/schemas/Message' }
+
+    ChannelFrozenEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.frozen] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    ChannelUnFrozenEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.unfrozen] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    ChannelMutedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.muted] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    ChannelUnmutedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [channel.unmuted] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    MemberAddedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [member.added] }
+            member: { $ref: '#/components/schemas/Member' }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    MemberRemovedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [member.removed] }
+            member: { $ref: '#/components/schemas/Member' }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    MemberUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [member.updated] }
+            member: { $ref: '#/components/schemas/Member' }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    UserPresenceChangedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.presence.changed] }
+
+    UserUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.updated] }
+
+    UserDeletedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.deleted] }
+            mark_messages_deleted: { type: boolean }
+            hard_delete: { type: boolean }
+            delete_conversation_channels: { type: boolean }
+
+    UserBannedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.banned] }
+            created_by:
+              $ref: '#/components/schemas/User'
+            reason: { type: string }
+            expiration: { type: string, format: date-time }
+            shadow: { type: boolean }
+
+    UserUnbannedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.unbanned] }
+
+    UserMutedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.muted] }
+            target_user:
+              $ref: '#/components/schemas/User'
+
+    UserUnmutedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.unmuted] }
+            target_user:
+              $ref: '#/components/schemas/User'
+
+    UserFlaggedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.flagged] }
+            target_user:
+              $ref: '#/components/schemas/User'
+            reason: { type: string }
+
+    UserDeactivatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.deactivated] }
+            created_by:
+              $ref: '#/components/schemas/User'
+
+    UserReactivatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.reactivated] }
+            created_by:
+              $ref: '#/components/schemas/User'
+
+    UserMessagesDeletedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.messages.deleted] }
+            mark_messages_deleted: { type: boolean }
+            hard_delete: { type: boolean }
+
+    UserWatchingStartEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.watching.start] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    UserWatchingStopEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.watching.stop] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    UserUnreadReminderEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [user.unread_message_reminder] }
+            total_unread_count: { type: integer, format: int32 }
+            channels:
+              type: object
+              additionalProperties: true
+
+    NotificationMessageNewEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.message_new] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            message: { $ref: '#/components/schemas/Message' }
+            total_unread_count: { type: integer, format: int32 }
+            unread_channels: { type: integer, format: int32 }
+            unread_count: { type: integer, format: int32 }
+
+    NotificationMarkReadEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.mark_read] }
+            total_unread_count: { type: integer, format: int32 }
+            unread_channels: { type: integer, format: int32 }
+            unread_count: { type: integer, format: int32 }
+            unread_threads: { type: integer, format: int32 }
+
+    NotificationMarkUnreadEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.mark_unread] }
+            total_unread_count: { type: integer, format: int32 }
+            unread_channels: { type: integer, format: int32 }
+            unread_count: { type: integer, format: int32 }
+            unread_messages: { type: integer, format: int32 }
+            first_unread_message_id: { type: string }
+            last_read_message_id: { type: string }
+            last_read_at: { type: string, format: date-time }
+
+    NotificationAddedToChannelEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.added_to_channel] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            member: { $ref: '#/components/schemas/Member' }
+            total_unread_count: { type: integer, format: int32 }
+            unread_channels: { type: integer, format: int32 }
+            unread_count: { type: integer, format: int32 }
+
+    NotificationRemovedFromChannelEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.removed_from_channel] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            member: { $ref: '#/components/schemas/Member' }
+
+    NotificationInvitedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.invited] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            member: { $ref: '#/components/schemas/Member' }
+
+    NotificationInviteAcceptedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.invite_accepted] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            member: { $ref: '#/components/schemas/Member' }
+
+    NotificationInviteRejectedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.invite_rejected] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            member: { $ref: '#/components/schemas/Member' }
+
+    NotificationChannelDeletedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.channel_deleted] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    NotificationChannelTruncatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.channel_truncated] }
+            channel: { $ref: '#/components/schemas/Channel' }
+
+    NotificationChannelMutesUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.channel_mutes_updated] }
+            me: { $ref: '#/components/schemas/OwnUser' }
+
+    NotificationMutesUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.mutes_updated] }
+            me: { $ref: '#/components/schemas/OwnUser' }
+
+    NotificationThreadMessageNewEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.thread_message_new] }
+            channel: { $ref: '#/components/schemas/Channel' }
+            message: { $ref: '#/components/schemas/Message' }
+            thread: { $ref: '#/components/schemas/Thread' }
+            unread_threads: { type: integer, format: int32 }
+            unread_thread_messages: { type: integer, format: int32 }
+
+    ReminderNotificationEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [notification.reminder_due] }
+            message: { $ref: '#/components/schemas/Message' }
+            reminder:
+              type: object
+              additionalProperties: true
+
+    ReminderCreatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [reminder.created] }
+            reminder:
+              type: object
+              additionalProperties: true
+
+    ReminderUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [reminder.updated] }
+            reminder:
+              type: object
+              additionalProperties: true
+
+    ReminderDeletedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [reminder.deleted] }
+            reminder:
+              type: object
+              additionalProperties: true
+
+    ThreadUpdatedEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          properties:
+            type: { type: string, enum: [thread.updated] }
+            thread: { $ref: '#/components/schemas/Thread' }
+            message: { $ref: '#/components/schemas/Message' }
+
+    CustomEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          description: |
+            Custom channel event published via `channel.sendEvent({ type: '...' })`.
+            Any non-built-in `type` value is treated as a custom event and forwarded
+            to all watchers of the channel.
+          properties:
+            type:
+              type: string
+              description: Custom event type string (any value that is not a built-in event).
+            channel: { $ref: '#/components/schemas/Channel' }
+
+  securitySchemes:
+    UserJWT:
+      type: httpApiKey
+      name: authorization
+      in: query
+      description: |
+        Stream user JWT generated server-side using the API secret. Sent as the
+        `authorization` query parameter together with `stream-auth-type=jwt`.
+    APIKey:
+      type: httpApiKey
+      name: api_key
+      in: query
+      description: Stream app API key, sent as the `api_key` query parameter.
