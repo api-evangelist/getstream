@@ -1,7 +1,7 @@
 {
   "provider": "getstream",
   "sources": [
-    "_original/stream-io-product-chat-api-openapi.yml",
+    "_original/getstream-openapi.yml",
     "_original/stream-io-product-common-api-openapi.yml",
     "_original/stream-io-product-feeds-api-openapi.yml",
     "_original/stream-io-product-moderation-api-openapi.yml",
@@ -18,13 +18,12 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "1 archived document(s) dropped as subsets of other archived documents",
     "sourced from openapi/_original/ (5 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "getstream-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "getstream-openapi.yml: declared missing tag: product:chat",
     "apis.yml register: already-registered"
   ],
   "skipped": [
-    "_original/getstream-openapi.yml: archived document superseded by a larger archived document",
-    "getstream-product-chat-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "getstream-product-common-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "getstream-product-feeds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "getstream-product-moderation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
