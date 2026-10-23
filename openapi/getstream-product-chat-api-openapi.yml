@@ -29169,3 +29169,9 @@ components:
       in: header
       name: Stream-Auth-Type
       type: apiKey
+x-provenance:
+  method: harvested
+  publisher: Stream
+  source: https://raw.githubusercontent.com/GetStream/protocol/main/openapi/chat-openapi.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
