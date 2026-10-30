@@ -1,4 +1,4 @@
-# Stream (getstream)
+# Stream
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,134 +64,159 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Stream (GetStream.io) provides scalable, API-first infrastructure for in-app chat messaging, activity feeds, audio/video calling and livestreaming, and AI moderation. The server-side platform is a documented REST API (base `https://chat.stream-io-api.com` for Chat) authenticated with a JWT in the `Authorization` header plus a `Stream-Auth-Type: jwt` header and the application `api_key` query parameter. Client SDKs additionally open a persistent **WebSocket** connection (`wss://chat.stream-io-api.com/connect`) to receive real-time events - `message.new`, `typing.start`, `reaction.new`, `user.presence.changed`, `notification.*` - and periodic `health.check` heartbeats. Chat and Feeds are metered on Monthly Active Users (MAU); Video is metered on participant minutes.
+Stream (GetStream.io) provides scalable, API-first infrastructure for in-app chat messaging, activity feeds, audio/video calling and livestreaming, and AI moderation. The server-side platform is a documented REST API (base https://chat.stream-io-api.com for Chat) with JWT authentication, complemented by client SDKs that open a persistent WebSocket connection to receive real-time events - message.new, typing.start, user.presence.changed, reaction.new, notification.* and periodic health.check heartbeats. Products are metered on monthly active users (Chat) and participant minutes (Video), with Free/Maker, Standard (Startup) and Enterprise tiers.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/getstream/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/getstream/refs/heads/main/apis.yml)
+**Areas:** Chat · Messaging · Activity Feeds · Video · Audio · Moderation · WebSocket · Real-Time
 
-## Tags
+## Stream on APIs.io
 
-- Chat
-- Messaging
-- Activity Feeds
-- Video
-- Audio
-- Moderation
-- WebSocket
-- Real Time
+Everything profiled for Stream is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/getstream/](https://apis.io/providers/getstream/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (7)
 
-- **Created:** 2026-07-03
-- **Modified:** 2026-07-03
+- [Stream Activity Feeds API](https://apis.io/apis/getstream/getstream-activity-feeds-api/) — Build scalable activity feeds and timelines - add activities to feeds, follow and unfollow feeds, aggregate and rank activities, and fan out to followers.…
+- [Stream Video and Audio API](https://apis.io/apis/getstream/getstream-video-audio-api/) — Create and manage audio/video calls and livestreams - get-or-create calls, manage call members and permissions, start and stop recording, transcription, and…
+- [Stream Product:chat API](https://apis.io/apis/getstream/getstream-product-chat-api/) — The product:chat API from Stream — 194 operation(s) for product:chat.
+- [Stream Product:common API](https://apis.io/apis/getstream/getstream-product-common-api/) — The product:common API from Stream — 54 operation(s) for product:common.
+- [Stream Product:feeds API](https://apis.io/apis/getstream/getstream-product-feeds-api/) — The product:feeds API from Stream — 69 operation(s) for product:feeds.
+- [Stream Product:moderation API](https://apis.io/apis/getstream/getstream-product-moderation-api/) — The product:moderation API from Stream — 56 operation(s) for product:moderation.
+- [Stream Product:video API](https://apis.io/apis/getstream/getstream-product-video-api/) — The product:video API from Stream — 121 operation(s) for product:video.
 
-## APIs
+### Published properties
 
-### Stream Chat Channels API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Query, get-or-create, update, truncate, and delete chat channels, and mark them read. Channels are the containers that hold messages, members, reads, and reactions, addressed by a channel type and id (e.g. `messaging:general`).
+#### AsyncAPI (2)
 
-- **Human URL:** [https://getstream.io/chat/docs/](https://getstream.io/chat/docs/)
-- **Base URL:** `https://chat.stream-io-api.com`
+Event-driven and webhook contracts.
 
-#### Properties
+- [Stream Chat Realtime WebSocket API](https://apis.io/asyncapis/getstream/getstream-asyncapi/)
+- [Stream Chat WebSocket API](https://apis.io/asyncapis/getstream/stream-io-asyncapi/)
 
-- [Documentation](https://getstream.io/chat/docs/)
-- [API Reference](https://getstream.github.io/protocol/?urls.primaryName=Chat)
-- [OpenAPI](openapi/getstream-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [AsyncAPI](asyncapi/getstream-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/v2.6.0)
+#### Event channels (2)
 
-### Stream Chat Messages API
+Individual events and webhooks the provider emits.
 
-Send, get, update, and delete messages within a channel, fetch thread replies and message history, and run message search across an application's channels.
+- [/connect](https://apis.io/channels/getstream/connect/)
+- [/connect](https://apis.io/channels/getstream/stream-chat-websocket-api-connect/)
 
-- **Human URL:** [https://getstream.io/chat/docs/node/send_message/](https://getstream.io/chat/docs/node/send_message/)
-- **Base URL:** `https://chat.stream-io-api.com`
+#### Agentic access (1)
 
-### Stream Chat Members API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-Query channel members with filtering and sorting, and partially update a member's channel-scoped attributes such as role, notifications, and pinned or archived state.
+- [Getstream Agentic Access](https://apis.io/agentic-access/getstream/getstream-agentic-access/)
 
-- **Human URL:** [https://getstream.io/chat/docs/node/channel_members/](https://getstream.io/chat/docs/node/channel_members/)
-- **Base URL:** `https://chat.stream-io-api.com`
+#### Collections (13)
 
-### Stream Chat Reactions API
+Postman and Open Collection request collections.
 
-Add, list, and remove emoji reactions on messages. Reactions carry a type (like, love, haha) and optional score, and emit `reaction.new` and `reaction.deleted` real-time events.
+- [Stream Chat API (Server-side REST)](https://apis.io/collections/getstream/open-getstream/)
+- [Stream Chat API (Server-side REST) Application API](https://apis.io/collections/getstream/open-getstream-application-api/)
+- [Stream Chat API (Server-side REST) Application Campaigns API](https://apis.io/collections/getstream/open-getstream-campaigns-api/)
+- [Stream Chat API (Server-side REST) Application Channels API](https://apis.io/collections/getstream/open-getstream-channels-api/)
+- [Stream Chat API (Server-side REST) Application Devices API](https://apis.io/collections/getstream/open-getstream-devices-api/)
+- [Stream Chat API (Server-side REST) Application Members API](https://apis.io/collections/getstream/open-getstream-members-api/)
+- [Stream Chat API (Server-side REST) Application Messages API](https://apis.io/collections/getstream/open-getstream-messages-api/)
+- [Stream Chat API (Server-side REST) Application Moderation API](https://apis.io/collections/getstream/open-getstream-moderation-api/)
+- [Stream Chat API (Server-side REST) Application Permissions API](https://apis.io/collections/getstream/open-getstream-permissions-api/)
+- [Stream Chat API (Server-side REST) Application Reactions API](https://apis.io/collections/getstream/open-getstream-reactions-api/)
+- [Stream Chat API (Server-side REST) Application Roles API](https://apis.io/collections/getstream/open-getstream-roles-api/)
+- [Stream Chat API (Server-side REST) Application Threads API](https://apis.io/collections/getstream/open-getstream-threads-api/)
+- [Stream Chat API (Server-side REST) Application Users API](https://apis.io/collections/getstream/open-getstream-users-api/)
 
-- **Human URL:** [https://getstream.io/chat/docs/node/send_reaction/](https://getstream.io/chat/docs/node/send_reaction/)
-- **Base URL:** `https://chat.stream-io-api.com`
+#### Governance rules (1)
 
-### Stream Chat Threads API
+Spectral rulesets for the provider's contracts.
 
-Query threads a user participates in, retrieve a single thread by its parent message id, and partially update thread metadata. Threads group replies under a parent message.
+- [Stream — asyncapi rules](https://apis.io/rules/getstream/getstream-asyncapi-spectral-rules/)
 
-- **Human URL:** [https://getstream.io/chat/docs/node/threads/](https://getstream.io/chat/docs/node/threads/)
-- **Base URL:** `https://chat.stream-io-api.com`
+#### Security (4)
 
-### Stream Chat Users API
+Authentication, trust centre, and vulnerability disclosure.
 
-Upsert, query, and partially update users, and deactivate or reactivate them. Users carry custom data and roles and are the identities that connect over the WebSocket and appear as channel members.
+- [Getstream Authentication](https://apis.io/security/getstream/getstream-authentication/)
+- [Getstream Domain Security](https://apis.io/security/getstream/getstream-domain-security/)
+- [Getstream Trust Center](https://apis.io/security/getstream/getstream-trust-center/)
+- [Getstream Vulnerability Disclosure](https://apis.io/security/getstream/getstream-vulnerability-disclosure/)
 
-- **Human URL:** [https://getstream.io/chat/docs/node/update_users/](https://getstream.io/chat/docs/node/update_users/)
-- **Base URL:** `https://chat.stream-io-api.com`
+#### Plans and pricing (1)
 
-### Stream Chat Devices and Push API
+Published plans, tiers and prices.
 
-Register, list, and remove a user's push devices (APNs, Firebase) so Stream can deliver offline push notifications, and manage push providers for the application.
+- [Getstream Plans Pricing](https://apis.io/plans/getstream/getstream-plans-pricing/)
 
-- **Human URL:** [https://getstream.io/chat/docs/node/push_devices/](https://getstream.io/chat/docs/node/push_devices/)
-- **Base URL:** `https://chat.stream-io-api.com`
+#### Rate limits (1)
 
-### Stream Chat Moderation API
+Published request limits.
 
-Ban and unban users, flag messages and users for review, and mute or unmute users and channels. Backs Stream's AI-powered trust and safety and content moderation workflows.
+- [Getstream Rate Limits](https://apis.io/rate-limits/getstream/getstream-rate-limits/)
 
-- **Human URL:** [https://getstream.io/moderation/docs/](https://getstream.io/moderation/docs/)
-- **Base URL:** `https://chat.stream-io-api.com`
+#### FinOps (1)
 
-### Stream Chat Permissions and Roles API
+What the API costs to run, by operation.
 
-List permissions, create and delete custom roles, and inspect the role-based access control that governs what users and channel members are allowed to do across the application.
+- [Getstream Finops](https://apis.io/finops/getstream/getstream-finops/)
 
-- **Human URL:** [https://getstream.io/chat/docs/node/permissions_reference/](https://getstream.io/chat/docs/node/permissions_reference/)
-- **Base URL:** `https://chat.stream-io-api.com`
+## Where to find this API
 
-### Stream Chat Campaigns API
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-Create, update, and delete bulk messaging campaigns and start or stop their delivery to user segments. Used to send templated messages to targeted audiences at scale.
-
-- **Human URL:** [https://getstream.io/chat/docs/node/campaigns/](https://getstream.io/chat/docs/node/campaigns/)
-- **Base URL:** `https://chat.stream-io-api.com`
-
-### Stream Activity Feeds API
-
-Build scalable activity feeds and timelines - add activities to feeds, follow and unfollow feeds, aggregate and rank activities, and fan out to followers. Powers social timelines, notification feeds, and news feeds.
-
-- **Human URL:** [https://getstream.io/activity-feeds/docs/](https://getstream.io/activity-feeds/docs/)
-- **Base URL:** `https://api.stream-io-api.com`
-
-### Stream Video and Audio API
-
-Create and manage audio/video calls and livestreams - get-or-create calls, manage call members and permissions, start and stop recording, transcription, and broadcasting. Metered on participant minutes.
-
-- **Human URL:** [https://getstream.io/video/docs/api/](https://getstream.io/video/docs/api/)
-- **Base URL:** `https://video.stream-io-api.com`
-
-## Real-Time WebSocket
-
-Stream Chat clients open a WebSocket to `wss://chat.stream-io-api.com/connect` (via `client.connectUser()`) to receive real-time events. The connection is modeled in [asyncapi/getstream-asyncapi.yml](asyncapi/getstream-asyncapi.yml). Stream limits open connections to 50 per user in production (3 in development).
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/GetStream)
-- [LinkedIn](https://www.linkedin.com/company/getstream)
 - [Website](https://getstream.io)
 - [Documentation](https://getstream.io/chat/docs/)
-- [Plans](plans/getstream-plans-pricing.yml)
-- [Rate Limits](rate-limits/getstream-rate-limits.yml)
-- [Fin Ops](finops/getstream-finops.yml)
+- [Blog](https://getstream.io/blog/rss.xml)
+- [GitHub](https://github.com/GetStream)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 44.3** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 58.4 |
+| Contract governance | 11.4 |
+| Operational transparency | 21.1 |
+| Developer ergonomics | 38.1 |
+| Access clarity | 15.8 |
+
+**Agent readiness 28.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | — |
+
+**Regulatory alignment 22.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/getstream/](https://apis.io/providers/getstream/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Stream: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/getstream/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
